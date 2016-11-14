@@ -1,0 +1,28 @@
+repository split:
+
+Subdirectories
+
+$ git clone --no-hardlinks foo.repo bar.repo
+
+ $ cd bar.repo
+ $ git filter-branch --subdirectory-filter bar HEAD  -- --all
+ $ git reset --hard
+ $ git gc --aggressive
+ $ git prune
+
+
+
+chrigi libkolabxml $git filter-branch --index-filter "git rm -r -f --cached --ignore-unmatch libkolab" --prune-empty HEAD
+Cannot create a new backup.
+A previous backup already exists in refs/original/
+Force overwriting the backup with -f
+chrigi libkolabxml $git log
+chrigi libkolabxml $git filter-branch -f --index-filter "git rm -r -f --cached --ignore-unmatch libkolab" --prune-empty HEAD
+
+ $ git reset --hard
+ $ git for-each-ref --format="%(refname)" refs/original/ | xargs -n 1 git update-ref -d
+ $ git reflog expire --expire=now --all
+ $ git gc --aggressive --prune=now
+ 
+ 
+ http://stackoverflow.com/questions/359424/detach-subdirectory-into-separate-git-repository

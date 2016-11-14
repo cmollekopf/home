@@ -1,0 +1,4 @@
+Check number of processes and threads (threads count against the limit):
+    ps -eLF | grep chrigi | wc -l
+
+ /etc/security/limits.d/90-nproc.conf contains an addiontional limit of 1024 to the regular ulimit one.

@@ -1,0 +1,22 @@
+Disper:
+
+shortcut for:
+
+auto-disper -c --default mobile
+
+run also from
+
+sudo vim /etc/pm/sleep.d/setupScreen.sh
+  1 #!/bin/bash
+  2 
+  3 case "$1" in
+  4     thaw | resume )
+  5         sudo -u chrigi env DISPLAY=:0 auto-disper --change --default mobile &> /home/chrigi/autodisper_on_wake.txt
+  6     ;;
+  7 esac
+  
+  
+  and 
+/etc/udev/rules.d/81-thinkpad-dock.rules
+
+KERNEL=="dock.1", ACTION=="change", RUN+="auto-disper --change --default mobile"

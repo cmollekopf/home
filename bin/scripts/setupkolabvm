@@ -1,0 +1,8 @@
+./setup-kolab-vm 30 santiago --size 8G
+# prepend "127.0.0.1    kolab.example.org" > /etc/hosts
+# setup-kolab (all default passwords)
+# (08:15:32 PM) kanarip: service iptables stop
+(08:15:36 PM) kanarip: chkconfig iptables off
+
+webadminlogin:
+"cn= Directory Manager"

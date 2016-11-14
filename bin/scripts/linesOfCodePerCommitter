@@ -1,0 +1,5 @@
+
+Adjust filetypes (scala, tex, xml). Filters whitespace only lines.
+
+
+git ls-tree -r HEAD|cut -f 2|grep -E '\.(scala|tex|xml)$' |xargs -n1 git blame --line-porcelain|grep -Pzo "author [^\n]*\n([^\n]*\n){10}[\w]*[^\w]"|grep "author "|sort|uniq -c|sort -nr

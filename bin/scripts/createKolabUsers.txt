@@ -1,0 +1,3 @@
+for i in `seq 1 200000`; do var=$RANDOM; kolab cm "shared/test$var@lhm.klab.cc" --metadata=/shared/vendor/kolab/folder-type=event; kolab dam "shared/test$var@lhm.klab.cc" anyone; kolab sam "shared/test$var@lhm.klab.cc" $user lrs; done
+
+kolab sam user/%/Kalender@lhm.klab.cc bodo.aachen@lhm.klab.cc lrs
