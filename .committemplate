@@ -1,0 +1,20 @@
+
+# Why is this change necessary?
+# How does it address the issue?
+# What side effects does this change have?
+#
+#
+#BUG: <bug number>
+#FIXED-IN: <optional release version>
+# --[ Add to release changelog optionally close wish in bugs.kde.org ]-|
+#FEATURE: <optional bug number>
+#FIXED-IN: <optional release version>
+# --[ Copy commit message to a bug or wish in bugs.kde.org ]-----------|
+#CCBUG: <bug number>
+#CCMAIL: <email>
+#REVIEW: <review number>
+# --[ Notify documentation team of user visible changes ]--------------|
+#GUI:
+# --[ Notify Commit Digest team of something interesting ]-------------|
+#DIGEST:
+#GIT_SILENT
