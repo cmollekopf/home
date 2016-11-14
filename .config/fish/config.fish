@@ -40,4 +40,4 @@ alias vim='nvim'
 # alias akonadilog="journalctl -n99  -f SYSLOG_IDENTIFIER=akonadi"
 alias devenv='~/docker/testenv.py'
 
-set -gx PATH /usr/sbin/ $PATH /home/chrigi/bin
+set -gx PATH /usr/sbin/ $PATH "$HOME/bin" "$HOME/bin/scripts"
