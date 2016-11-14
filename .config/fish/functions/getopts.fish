@@ -1,0 +1,1 @@
+/home/chrigi/.config/fisherman/getopts/getopts.fish

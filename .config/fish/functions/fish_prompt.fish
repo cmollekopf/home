@@ -1,0 +1,1 @@
+/home/chrigi/.local/share/omf/themes/default/fish_prompt.fish
