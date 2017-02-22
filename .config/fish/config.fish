@@ -40,4 +40,9 @@ alias vim='nvim'
 # alias akonadilog="journalctl -n99  -f SYSLOG_IDENTIFIER=akonadi"
 alias devenv='~/docker/testenv.py'
 
-set -gx PATH /usr/sbin/ $PATH "$HOME/bin" "$HOME/bin/scripts"
+alias ackf='ack -g --color'
+
+set -gx GOPATH "$HOME/bin/go"
+set -gx PATH /usr/sbin/ $PATH "$HOME/bin" "$HOME/bin/scripts" "$HOME/bin/go" "$HOME/bin/go/bin" "$HOME/.cargo/bin" "$HOME/bin/phabricator/arcanist/bin"
+
+fish_vi_key_bindings
