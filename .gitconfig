@@ -45,3 +45,5 @@
 	keepBackup = false
 [pull]
 	rebase = true
+[tar "tar.xz"]
+	command = xz -c
