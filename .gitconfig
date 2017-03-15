@@ -22,9 +22,9 @@
 [mergetool "gvimdiff3"]
     cmd = gvim -v -f -d -c \"wincmd J\" \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
 [commit]
-	template = /home/chrigi/.committemplate
+	template = ~/.committemplate
 [core]
-	excludesfile = /home/chrigi/.gitignore
+	excludesfile = ~/.gitignore
 	askpass = 
 [alias]
 	lg = log --color --graph --decorate --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
