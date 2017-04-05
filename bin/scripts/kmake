@@ -1,0 +1,3 @@
+#!/bin/bash
+
+~/docker/testenv.py srcbuild $(pwd | awk -F/ '{print $(5)}') $(pwd | awk -F/ '{print $(7)}') make -j5 "$@"
