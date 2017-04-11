@@ -1,0 +1,12 @@
+#!/bin/bash
+ENV=$(pwd | awk -F/ '{print $(5)}')
+PROJECT=$(pwd | awk -F/ '{print $(7)}')
+
+if [ "$1" == "shell" ]; then
+    ~/docker/testenv.py srcbuild "$ENV" shell
+elif [ "$1" == "make" ]; then
+    ~/docker/testenv.py srcbuild "$ENV" "$PROJECT" make -j5 "${@:2}"
+else
+    ~/docker/testenv.py srcbuild "$ENV" "$PROJECT" "$@"
+fi
+
