@@ -246,9 +246,9 @@ def timeToString(secs):
         secs -= mins * 60
         tmsg.append(str(mins) + ' minute' + ('s' if mins > 1 else ''))
 
-    if secs:
-        tmsg.append(str(secs) + ' second' + ('s' if secs > 1 else ''))
-    return ', '.join(tmsg)[::-1].replace(',', ' &'[::-1], 1)[::-1]
+    # if secs:
+    #     tmsg.append(str(secs) + ' second' + ('s' if secs > 1 else ''))
+    return ', '.join(tmsg)[::-1].replace(',', ' ,'[::-1], 1)[::-1]
 
 def action_log(period):
     data = store.load()
