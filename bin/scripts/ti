@@ -37,6 +37,7 @@ import re
 import os, subprocess, tempfile
 from os import path
 import sys
+from dateutil import tz
 
 from colorama import *
 
@@ -256,24 +257,31 @@ def action_log(period):
     log = defaultdict(lambda: {'delta': timedelta()})
     current = None
 
+    #Accumulate periods (and print periods)
     for item in work:
         start_time = parse_isotime(item['start'])
+        delta = None
         if 'end' in item:
             delta = parse_isotime(item['end']) - start_time
             log[item['name']]['delta'] += delta
-            print(item['name'], ' ∙ ', timeToString(delta.seconds),'\n')
         else:
             delta = datetime.utcnow() - start_time
             log[item['name']]['delta'] += delta
             current = item['name']
-            print(item['name'], ' ∙ ', timeToString(delta.seconds),'\n')
+        #Print with timestamp
+        utc_start = start_time.replace(tzinfo=tz.tzutc())
+        local_start = utc_start.astimezone(tz.tzlocal())
+        print(item['name'], ' ∙ ', local_start.strftime("%m-%d %H:%M"), ' ∙ ', timeToString(delta.seconds),'\n')
+
 
     name_col_len = 0
 
+    #Format time strings
     for name, item in log.items():
         name_col_len = max(name_col_len, len(name))
         log[name]['tmsg'] = timeToString(item['delta'].seconds)
 
+    #Print
     for name, item in sorted(log.items(), key=(lambda x: x[1]), reverse=True):
         print(name.ljust(name_col_len), ' ∙∙ ', item['tmsg'],
                 end=' ← working\n' if current == name else '\n')
