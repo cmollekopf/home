@@ -230,7 +230,7 @@ def action_log(period):
         #Print with timestamp
         utc_start = start_time.replace(tzinfo=tz.tzutc())
         local_start = utc_start.astimezone(tz.tzlocal())
-        print(item['name'], ' ∙ ', local_start.strftime("%m-%d %H:%M"), ' ∙ ', timeToString(delta.seconds),'\n')
+        print(item['name'], ' ∙ ', local_start.strftime("%m-%d %H:%M"), ' ∙ ', timeToString(delta.seconds), end=' ← working\n' if current == item['name'] else '\n')
 
 
     name_col_len = 0
@@ -242,7 +242,7 @@ def action_log(period):
 
     #Print
     for name, item in sorted(log.items(), key=(lambda x: x[1]), reverse=True):
-        print(name.ljust(name_col_len), ' ∙∙ ', item['tmsg'],
+        print("Total:", name.ljust(name_col_len), ' ∙∙ ', item['tmsg'],
                 end=' ← working\n' if current == name else '\n')
 
 def action_edit():
