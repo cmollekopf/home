@@ -374,12 +374,12 @@ def timegap(start_time, end_time):
         return 'less than a minute'
     elif mins == 1:
         return 'a minute'
-    elif mins < 44:
+    elif mins < 55:
         return '{} minutes'.format(mins)
-    elif mins < 89:
+    elif mins < 65:
         return 'about an hour'
     elif mins < 1439:
-        return 'about {} hours'.format(mins / 60)
+        return 'about {} hours and {} minutes'.format(mins / 60, mins % 60)
     elif mins < 2519:
         return 'about a day'
     elif mins < 43199:
