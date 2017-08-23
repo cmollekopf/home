@@ -25,7 +25,6 @@ set --export PAGER
 # make Vim usable with hg
 set --export HGEDITOR "nvim -f"
 
-set --export XDG_CURRENT_DESKTOP "kde"
 
 if status --is-interactive
     keychain --eval --quiet -Q id_dsa
@@ -33,9 +32,6 @@ end
 
 alias vim='nvim'
 
-# alias dockercleancontainers='docker rm (docker ps -a -q)'
-# alias dockerrmuntagged="docker rmi (docker images | grep "^<none>" | awk '{print $3}' ORS=' '"
-# alias dockerrmuntagged="docker rmi `docker images -qf 'dangling=true'`"
 # alias startakonadi="systemd-cat -t "akonadi" akonadictl start"
 # alias akonadilog="journalctl -n99  -f SYSLOG_IDENTIFIER=akonadi"
 alias devenv='~/docker/testenv.py'
@@ -43,6 +39,6 @@ alias devenv='~/docker/testenv.py'
 alias ackf='ack -g --color'
 
 set -gx GOPATH "$HOME/bin/go"
-set -gx PATH /usr/sbin/ $PATH "$HOME/bin" "$HOME/bin/scripts" "$HOME/bin/go" "$HOME/bin/go/bin" "$HOME/.cargo/bin" "$HOME/bin/phabricator/arcanist/bin"
+set -gx PATH /usr/sbin/ $PATH "$HOME/install/bin" "$HOME/bin" "$HOME/bin/scripts" "$HOME/bin/go" "$HOME/bin/go/bin" "$HOME/.cargo/bin" "$HOME/bin/phabricator/arcanist/bin"
 
 fish_vi_key_bindings
