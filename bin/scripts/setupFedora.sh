@@ -13,9 +13,6 @@ cd fzf
 ./install --all
 cd ~
 
-#Setup omf
-curl -L http://get.oh-my.fish | fish
-
 ln -s ~/.vim ~/.config/nvim
 ln -s ~/.vim/vimrc ~/.config/nvim/init.vim
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
