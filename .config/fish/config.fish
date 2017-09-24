@@ -1,14 +1,3 @@
-# Path to Oh My Fish install.
-set -q XDG_DATA_HOME
-  and set -gx OMF_PATH "$XDG_DATA_HOME/omf"
-  or set -gx OMF_PATH "$HOME/.local/share/omf"
-
-# Customize Oh My Fish configuration path.
-#set -gx OMF_CONFIG "/home/chrigi/.config/omf"
-
-# Load oh-my-fish configuration.
-source $OMF_PATH/init.fish
-
 # Disable greeting
 set fish_greeting
 
@@ -31,6 +20,7 @@ if status --is-interactive
 end
 
 alias vim='nvim'
+alias notes='nvim ~/notes/stuff'
 
 # alias startakonadi="systemd-cat -t "akonadi" akonadictl start"
 # alias akonadilog="journalctl -n99  -f SYSLOG_IDENTIFIER=akonadi"
