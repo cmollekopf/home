@@ -72,6 +72,11 @@ class Srcbuild < Thor
         runInDocker args.join(' '), workdir: dockerBuildDir
     end
 
+    desc "test", "Run tests"
+    def test
+        runInDocker "ctest -E memcheck -V", workdir: dockerBuildDir
+    end
+
 end
 
 begin
