@@ -11,7 +11,7 @@
 	insteadOf = kolab:
 [url "ssh://git@git.kolab.org/diffusion/"]
 	pushInsteadOf = kolab:
-[url "https://github.com/"]
+[url "ssh://git@github.com/"]
 	insteadOf = github:
 [color]
 	ui = true

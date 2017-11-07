@@ -32,3 +32,5 @@ set -gx GOPATH "$HOME/bin/go"
 set -gx PATH /usr/sbin/ $PATH "$HOME/install/bin" "$HOME/bin" "$HOME/bin/scripts" "$HOME/bin/go" "$HOME/bin/go/bin" "$HOME/.cargo/bin" "$HOME/bin/phabricator/arcanist/bin"
 
 fish_vi_key_bindings
+
+set -U FZF_LEGACY_KEYBINDINGS 0
