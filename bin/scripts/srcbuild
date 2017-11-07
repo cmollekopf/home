@@ -43,7 +43,8 @@ class Srcbuild < Thor
 
     desc "enter", "Enter shell."
     def enter
-        runInDocker 'bash', workdir: dockerBuildDir, interactive: true
+        docker_options_x11 = '--security-opt seccomp:unconfined -v /tmp/.docker.xauth:/tmp/.docker.xauth -v /tmp/.X11-unix:/tmp/.X11-unix --device /dev/dri/card0:/dev/dri/card0 -e DISPLAY=:0 -e XAUTHORITY=/tmp/.docker.xauth'
+        runInDocker 'bash', workdir: dockerBuildDir, interactive: true, extraargs: docker_options_x11
     end
 
     desc "configure", "Configure builddir."
