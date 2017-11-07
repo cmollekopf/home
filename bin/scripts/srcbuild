@@ -2,11 +2,19 @@
 ENV=$(pwd | awk -F/ '{print $(5)}')
 PROJECT=$(pwd | awk -F/ '{print $(7)}')
 
+ROOT="/home/chrigi/kdebuild/$ENV"
+
 if [ "$1" == "shell" ]; then
-    ~/docker/testenv.py srcbuild "$ENV" shell
+    docker run --rm -ti -v $ROOT/source:/src -v $ROOT/build:/build -v $ROOT/install:/install kubedev -c 'bash'
+elif [ "$1" == "configure" ]; then
+    mkdir -p $ROOT/build/$PROJECT
+    docker run --rm -v $ROOT/source:/src -v $ROOT/build:/build -v $ROOT/install:/install -w /build/$PROJECT kubedev -c "cmake /src/$PROJECT/"
+elif [ "$1" == "wipe" ]; then
+    echo "rm -Rf /build/$PROJECT/*"
+    docker run --rm -v $ROOT/source:/src -v $ROOT/build:/build -v $ROOT/install:/install kubedev -c "rm -Rf /build/$PROJECT/*"
 elif [ "$1" == "make" ]; then
-    ~/docker/testenv.py srcbuild "$ENV" "$PROJECT" make -j5 "${@:2}"
+    docker run --rm -v $ROOT/source:/src -v $ROOT/build:/build -v $ROOT/install:/install -w /build/$PROJECT kubedev -c 'make -j5 ${@:2}'
 else
-    ~/docker/testenv.py srcbuild "$ENV" "$PROJECT" "$@"
+    docker run --rm -v $ROOT/source:/src -v $ROOT/build:/build -v $ROOT/install:/install -w /build/$PROJECT kubedev -c '$@'
 fi
 
