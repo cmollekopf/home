@@ -1,20 +1,82 @@
-#!/bin/bash
-ENV=$(pwd | awk -F/ '{print $(5)}')
-PROJECT=$(pwd | awk -F/ '{print $(7)}')
+#!/usr/bin/env ruby
 
-ROOT="/home/chrigi/kdebuild/$ENV"
+require 'thor'
+require 'pry'
 
-if [ "$1" == "shell" ]; then
-    docker run --rm -ti -v $ROOT/source:/src -v $ROOT/build:/build -v $ROOT/install:/install kubedev -c 'bash'
-elif [ "$1" == "configure" ]; then
-    mkdir -p $ROOT/build/$PROJECT
-    docker run --rm -v $ROOT/source:/src -v $ROOT/build:/build -v $ROOT/install:/install -w /build/$PROJECT kubedev -c "cmake /src/$PROJECT/"
-elif [ "$1" == "wipe" ]; then
-    echo "rm -Rf /build/$PROJECT/*"
-    docker run --rm -v $ROOT/source:/src -v $ROOT/build:/build -v $ROOT/install:/install kubedev -c "rm -Rf /build/$PROJECT/*"
-elif [ "$1" == "make" ]; then
-    docker run --rm -v $ROOT/source:/src -v $ROOT/build:/build -v $ROOT/install:/install -w /build/$PROJECT kubedev -c 'make -j5 ${@:2}'
-else
-    docker run --rm -v $ROOT/source:/src -v $ROOT/build:/build -v $ROOT/install:/install -w /build/$PROJECT kubedev -c '$@'
-fi
+class Srcbuild < Thor
 
+    no_commands {
+
+        def runInDocker(cmd, workdir: nil, extraargs: "", interactive: false)
+            workdirarg = ""
+            workdirarg = "-w #{workdir}" unless workdir.nil?
+            extraargs = "-ti" if interactive
+            commandline = "docker run --rm #{extraargs} -v #{root}/source:/src -v #{root}/build:/build -v #{root}/install:/install #{workdirarg} kubedev -c '#{cmd}'"
+            # puts commandline
+            system commandline
+        end
+
+        def project
+            `pwd | awk -F/ '{print $(7)}'`.chomp
+        end
+
+        def env
+            `pwd | awk -F/ '{print $(5)}'`.chomp
+        end
+
+        def root
+            "~/kdebuild/#{env}"
+        end
+
+        def hostProjectDir
+            "#{root}/build/#{project}"
+        end
+
+        def dockerSrcDir
+            "/src/#{project}"
+        end
+
+        def dockerBuildDir
+            "/build/#{project}"
+        end
+    }
+
+    desc "enter", "Enter shell."
+    def enter
+        runInDocker 'bash', workdir: dockerBuildDir, interactive: true
+    end
+
+    desc "configure", "Configure builddir."
+    def configure(*args)
+        system "mkdir -p #{hostProjectDir}"
+        cmake_options="-DCMAKE_PREFIX_PATH=/install -DCMAKE_INSTALL_PREFIX=/install -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=debug -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ " + args.join(' ')
+        cmake_options = cmake_options.chomp
+
+        puts "CMake Options: " + cmake_options
+        runInDocker "cmake #{cmake_options} #{dockerSrcDir}", workdir: dockerBuildDir
+    end
+
+    desc "wipe", "Wipe builddir."
+    def wipe
+        puts "rm -Rf #{dockerBuildDir}/*"
+        runInDocker "rm -Rf #{dockerBuildDir}/*"
+    end
+
+    desc "make", "Build."
+    def make(*args)
+        runInDocker "make -j5 #{args.join ' '}".chomp(' '), workdir: dockerBuildDir
+    end
+
+    desc "exec", "Run."
+    def exec(*args)
+        runInDocker args.join ' ', workdir: dockerBuildDir
+    end
+
+end
+
+begin
+    Srcbuild.start(ARGV)
+rescue => e
+    puts e.message
+    puts e.backtrace.inspect
+end
