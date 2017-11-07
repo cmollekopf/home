@@ -64,12 +64,12 @@ class Srcbuild < Thor
 
     desc "make", "Build."
     def make(*args)
-        runInDocker "make -j5 #{args.join ' '}".chomp(' '), workdir: dockerBuildDir
+        runInDocker "make -j5 #{args.join(' ')}".chomp(' '), workdir: dockerBuildDir
     end
 
     desc "exec", "Run."
     def exec(*args)
-        runInDocker args.join ' ', workdir: dockerBuildDir
+        runInDocker args.join(' '), workdir: dockerBuildDir
     end
 
 end
