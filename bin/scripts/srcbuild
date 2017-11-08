@@ -10,34 +10,33 @@ class Srcbuild < Thor
         def runInDocker(cmd, workdir: nil, extraargs: "", interactive: false)
             workdirarg = ""
             workdirarg = "-w #{workdir}" unless workdir.nil?
-            extraargs = "-ti" if interactive
-            commandline = "docker run --rm #{extraargs} -v #{root}/source:/src -v #{root}/build:/build -v #{root}/install:/install #{workdirarg} kubedev -c '#{cmd}'"
-            # puts commandline
+            extraargs = extraargs + " -ti" if interactive
+            commandline = "docker run --rm #{extraargs} -v #{root}:/src -v #{root}/build:/build -v #{root}/install:/install #{workdirarg} kubedev -c '#{cmd}'"
             system commandline
         end
 
         def project
-            `pwd | awk -F/ '{print $(7)}'`.chomp
-        end
-
-        def env
-            `pwd | awk -F/ '{print $(5)}'`.chomp
+            currentDir = Dir.pwd.split('/').last
+            if currentDir == root.split('/').last
+                return ""
+            end
+            return currentDir
         end
 
         def root
-            "~/kdebuild/#{env}"
+            "#{Dir.home}/src"
         end
 
         def hostProjectDir
-            "#{root}/build/#{project}"
+            "#{root}/build/#{project}".chomp '/'
         end
 
         def dockerSrcDir
-            "/src/#{project}"
+            "/src/#{project}".chomp '/'
         end
 
         def dockerBuildDir
-            "/build/#{project}"
+            "/build/#{project}".chomp '/'
         end
     }
 
@@ -76,6 +75,38 @@ class Srcbuild < Thor
     desc "test", "Run tests"
     def test
         runInDocker "ctest -E memcheck -V", workdir: dockerBuildDir
+    end
+
+    desc "build", "Build a set"
+    def build(set)
+        if set == "kube"
+            repositories = [
+                {name: "flatbuffers", url: "github:google/flatbuffers", checkout: "v1.6.0"},
+                {name: "kdav2", url: "kde:kdav2", checkout: "master"},
+                {name: "kimap2", url: "kde:kimap2", checkout: "master"},
+                {name: "kasync", url: "kde:kasync", checkout: "master"},
+                {name: "sink", url: "kde:sink", checkout: "develop"},
+                {name: "kube", url: "kde:kube", checkout: "develop"},
+            ]
+            Dir.chdir root do
+                system "mkdir -p build"
+                system "mkdir -p install"
+                for repo in repositories
+                    projectName = repo[:name]
+                    puts "Building " + projectName + " From " + repo[:url]
+                    unless Dir.exists? projectName
+                        system "git clone #{repo[:url]}"
+                    end
+                    Dir.chdir projectName do
+                        system "git pull"
+                        configure()
+                        make "install"
+                    end
+                end
+            end
+        else
+            puts "Unknown set " + set
+        end
     end
 
 end
