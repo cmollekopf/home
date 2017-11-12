@@ -40,11 +40,18 @@ class Srcbuild < Thor
         def dockerBuildDir
             "/build/#{project}".chomp '/'
         end
+
+        def docker_options_x11
+            '--security-opt seccomp:unconfined -v /tmp/.docker.xauth:/tmp/.docker.xauth -v /tmp/.X11-unix:/tmp/.X11-unix --device /dev/dri/card0:/dev/dri/card0 -e DISPLAY=:0 -e XAUTHORITY=/tmp/.docker.xauth'
+        end
+
+        def cpuCores
+            `nproc`
+        end
     }
 
     desc "enter", "Enter shell."
     def enter
-        docker_options_x11 = '--security-opt seccomp:unconfined -v /tmp/.docker.xauth:/tmp/.docker.xauth -v /tmp/.X11-unix:/tmp/.X11-unix --device /dev/dri/card0:/dev/dri/card0 -e DISPLAY=:0 -e XAUTHORITY=/tmp/.docker.xauth'
         runInDocker '', workdir: dockerBuildDir, interactive: true, extraargs: docker_options_x11, entrypoint: "/bin/bash"
     end
 
@@ -66,7 +73,7 @@ class Srcbuild < Thor
 
     desc "make", "Build."
     def make(*args)
-        runInDocker "make -j5 #{args.join(' ')}".chomp(' '), workdir: dockerBuildDir
+        runInDocker "make -j#{cpuCores} #{args.join(' ')}".chomp(' '), workdir: dockerBuildDir
     end
 
     desc "exec", "Run."
@@ -76,7 +83,12 @@ class Srcbuild < Thor
 
     desc "test", "Run tests"
     def test
-        runInDocker "ctest -E memcheck -V", workdir: dockerBuildDir
+        runInDocker "ctest -E memcheck -V", workdir: dockerBuildDir, extraargs: docker_options_x11, interactive: true
+    end
+
+    desc "edit", "Edit CMakeCache.txt"
+    def edit
+        system "$EDITOR #{hostProjectDir}/CMakeCache.txt"
     end
 
     desc "build", "Build a set"
