@@ -46,7 +46,7 @@ class Srcbuild < Thor
         end
 
         def cpuCores
-            `nproc`
+            `nproc`.chomp
         end
     }
 
@@ -62,7 +62,7 @@ class Srcbuild < Thor
         cmake_options = cmake_options.chomp
 
         puts "CMake Options: " + cmake_options
-        runInDocker "cmake #{cmake_options} #{dockerSrcDir}", workdir: dockerBuildDir
+        runInDocker "cmake #{cmake_options} #{dockerSrcDir}", workdir: dockerBuildDir, interactive: true
     end
 
     desc "wipe", "Wipe builddir."
@@ -73,12 +73,12 @@ class Srcbuild < Thor
 
     desc "make", "Build."
     def make(*args)
-        runInDocker "make -j#{cpuCores} #{args.join(' ')}".chomp(' '), workdir: dockerBuildDir
+        runInDocker "make -j#{cpuCores} #{args.join(' ')}".chomp(' '), workdir: dockerBuildDir, interactive: true
     end
 
     desc "exec", "Run."
     def exec(*args)
-        runInDocker args.join(' '), workdir: dockerBuildDir
+        runInDocker args.join(' '), workdir: dockerBuildDir, interactive: true
     end
 
     desc "test", "Run tests"
