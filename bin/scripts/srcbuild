@@ -78,7 +78,7 @@ class Srcbuild < Thor
 
     desc "exec", "Run."
     def exec(*args)
-        runInDocker args.join(' '), workdir: dockerBuildDir, interactive: true
+        runInDocker args.join(' '), workdir: dockerBuildDir, extraargs: docker_options_x11, interactive: true
     end
 
     desc "test", "Run tests"
