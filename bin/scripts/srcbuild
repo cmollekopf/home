@@ -63,7 +63,7 @@ class Srcbuild < Thor
         cmake_options = cmake_options.chomp
 
         puts "CMake Options: " + cmake_options
-        runInDocker "cmake #{cmake_options} #{dockerSrcDir}", workdir: dockerBuildDir, interactive: true
+        runInDocker "cmake #{cmake_options} #{dockerSrcDir}", workdir: dockerBuildDir, interactive: $stdout.isatty
     end
 
     desc "wipe", "Wipe builddir."
@@ -74,7 +74,7 @@ class Srcbuild < Thor
 
     desc "make", "Build."
     def make(*args)
-        runInDocker "make -j#{cpuCores} #{args.join(' ')}".chomp(' '), workdir: dockerBuildDir, interactive: true
+        runInDocker "make -j#{cpuCores} #{args.join(' ')}".chomp(' '), workdir: dockerBuildDir, interactive: $stdout.isatty
     end
 
     desc "exec", "Run."
