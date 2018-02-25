@@ -11,10 +11,11 @@ class Srcbuild < Thor
             workdirarg = ""
             workdirarg = "-w #{workdir}" unless workdir.nil?
             extraargs = extraargs + " -ti" if interactive
-            commandline = "docker run --rm #{extraargs} -v #{root}:/src -v #{root}/build:/build -v #{root}/install:/install #{workdirarg} --entrypoint='#{entrypoint}' kubedev #{cmd}"
+            commandline = "docker run --rm #{extraargs} --network=host -v #{root}:/src -v #{root}/build:/build -v #{root}/install:/install #{workdirarg} --entrypoint='#{entrypoint}' kubedev #{cmd}"
             # puts "Using the workdir: #{root}"
-            # puts "Cmd: #{commandline}"
-            Kernel.system commandline
+            # puts "Cmd: #{cmd}"
+            puts "Commandline: #{commandline}"
+            Kernel.exec commandline
         end
 
         def project
