@@ -29,7 +29,7 @@ alias devenv='~/docker/testenv.py'
 alias ackf='ack -g --color'
 
 set -gx GOPATH "$HOME/bin/go"
-set -gx PATH /usr/sbin/ $PATH "$HOME/install/bin" "$HOME/bin" "$HOME/bin/scripts" "$HOME/bin/go" "$HOME/bin/go/bin" "$HOME/.cargo/bin" "$HOME/bin/phabricator/arcanist/bin"
+set -gx PATH $PATH "$HOME/bin" "$HOME/bin/scripts" "$HOME/bin/go" "$HOME/bin/go/bin" "$HOME/.cargo/bin" "$HOME/bin/phabricator/arcanist/bin"
 
 
 #Fixes a neovim issue (among others opening commits from gblame): https://github.com/junegunn/fzf/issues/881
