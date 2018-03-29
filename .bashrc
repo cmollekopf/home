@@ -65,8 +65,6 @@ man() {
 			man "$@"
 }
 
-alias nepomukcmd="sopranocmd --socket `kde4-config --path socket`nepomuk-socket --model main --nrl"
-alias nepomukshutdown="qdbus org.kde.NepomukServer /nepomukserver org.kde.NepomukServer.quit"
 alias imonline="qdbus org.kde.kded /modules/networkstatus org.kde.Solid.Networking.setNetworkStatus ntrack 4"
 alias imoffline="qdbus org.kde.kded /modules/networkstatus org.kde.Solid.Networking.setNetworkStatus ntrack 1"
 export INTEL_LICENSE_FILE=/opt/intel/licences/NCOM_L_VT__NHBB-X2FZ6DBD.lic
@@ -80,5 +78,3 @@ alias make='nice make -j5'
 export KF5=$HOME/kf5
 
 set -o vi
-source /usr/share/cdargs/cdargs-bash.sh
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash

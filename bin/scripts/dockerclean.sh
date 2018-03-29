@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo "Removing unused containers"
 docker rm $(docker ps -a -q)
