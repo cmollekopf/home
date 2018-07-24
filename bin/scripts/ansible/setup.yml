@@ -1,0 +1,95 @@
+- name: run the playbook tasks on the localhost
+  hosts: 127.0.0.1
+  connection: local
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Run the command if the specified file does not exist.
+      command: dnf -y copr enable tjuberg/i3-desktop
+      warn: no
+
+    - name: Install list of required packages
+      package: name={{ item }} state=installed
+      become: yes
+      become_method: sudo
+      with_items:
+      - git
+      - tig
+      - tmux
+      - fish
+      - polybar
+      - i3
+      - dunst
+      - network-manager-applet
+      - zeal
+      - neovim
+      - python3-neovim
+      - the_silver_searcher
+      - python
+      - nnn
+      - lightdm
+      - fish
+      - firefox
+      - docker
+      - flatpak
+      - gcc
+      - clang
+      - cmake
+      - spectacle
+      - udiskie
+      - keychain
+      - fzf
+      - termite
+      - polybar
+      - slock
+      - pidgin
+      - shadow-utils
+      - pass
+      - ruby
+
+    - name: Set hostname
+      hostname:
+        name: satellite1
+
+    - name: Ensure group "somegroup" exists
+      group:
+        name: docker
+        state: present
+
+    - name: Setup user mollekopf
+      user:
+        name: mollekopf
+        shell: /bin/fish
+        groups: docker, wheel, audio
+        append: yes
+
+    - name: sudo without password
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%wheel\s'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+
+    - name: Setup docker storage
+      lineinfile:
+        path: /etc/sysconfig/docker-storage-setup
+        regexp: '^EXTRA_STORAGE_OPTIONS='
+        line: 'EXTRA_STORAGE_OPTIONS="-g /data/docker"'
+
+    - name: Disable selinux
+      lineinfile:
+        path: /etc/selinux/config
+        regexp: '^SELINUX='
+        line: 'SELINUX=disabled'
+
+    - name: restart docker
+      systemd:
+        name: docker
+        enabled: yes
+        state: restarted
+        daemon_reload: yes
+
+    - name: lightdm
+      systemd:
+        name: lightdm
+        enabled: yes
