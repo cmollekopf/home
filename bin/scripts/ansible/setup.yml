@@ -41,7 +41,6 @@
       - keychain
       - fzf
       - termite
-      - polybar
       - slock
       - pidgin
       - shadow-utils
