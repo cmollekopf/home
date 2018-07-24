@@ -4,9 +4,10 @@
   become: yes
   become_method: sudo
   tasks:
-    - name: Run the command if the specified file does not exist.
+    - name: Enable tjuberg/i3-desktop
       command: dnf -y copr enable tjuberg/i3-desktop
-      warn: no
+      args:
+        warn: no
 
     - name: Install list of required packages
       package: name={{ item }} state=installed
@@ -51,7 +52,7 @@
       hostname:
         name: satellite1
 
-    - name: Ensure group "somegroup" exists
+    - name: Create the docker group
       group:
         name: docker
         state: present
