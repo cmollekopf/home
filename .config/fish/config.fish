@@ -33,7 +33,7 @@ alias devenv='~/docker/testenv.py'
 alias ackf='ack -g --color'
 
 set -gx GOPATH "$HOME/bin/go"
-set -gx PATH $PATH "$HOME/bin" "$HOME/bin/scripts" "$HOME/bin/go" "$HOME/bin/go/bin" "$HOME/.cargo/bin"
+set -gx PATH $PATH "$HOME/bin" "$HOME/bin/scripts" "$HOME/bin/go" "$HOME/bin/go/bin" "$HOME/.cargo/bin" "$HOME/bin/arcanist/bin"
 
 set -gx CPATH "$HOME/.nix-profile/include"
 set -gx LIBRARY_PATH "$HOME/.nix-profile/lib"
