@@ -1,1 +1,1 @@
-/home/chrigi/.config/fisherman/getopts/getopts.fish
+/home/mollekopf/.config/fisherman/getopts/getopts.fish

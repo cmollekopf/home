@@ -1,1 +1,1 @@
-/home/chrigi/.config/fisherman/fzf/functions/__fzfcmd.fish
+/home/mollekopf/.config/fisherman/fzf/functions/__fzfcmd.fish

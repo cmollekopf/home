@@ -1,1 +1,1 @@
-/home/chrigi/.config/fisherman/z/functions/__z.fish
+/home/mollekopf/.config/fisherman/z/functions/__z.fish

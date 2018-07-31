@@ -1,1 +1,1 @@
-/home/chrigi/.config/fisherman/await/functions/await.fish
+/home/mollekopf/.config/fisherman/await/functions/await.fish

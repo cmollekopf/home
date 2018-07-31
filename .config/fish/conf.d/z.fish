@@ -1,1 +1,1 @@
-/home/chrigi/.config/fisherman/z/conf.d/z.fish
+/home/mollekopf/.config/fisherman/z/conf.d/z.fish

@@ -1,1 +1,1 @@
-/home/chrigi/.config/fisherman/z/functions/zadd.awk
+/home/mollekopf/.config/fisherman/z/functions/zadd.awk

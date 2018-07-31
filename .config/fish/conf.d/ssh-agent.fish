@@ -1,1 +1,1 @@
-/home/chrigi/.config/fisherman/ssh-agent.fish/conf.d/ssh-agent.fish
+/home/mollekopf/.config/fisherman/ssh-agent.fish/conf.d/ssh-agent.fish
