@@ -46,6 +46,10 @@
       - shadow-utils
       - pass
       - ruby
+      - php
+      - php-json
+      - ffmpeg
+      - htop
 
     - name: Set hostname
       hostname:
