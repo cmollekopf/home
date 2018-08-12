@@ -39,6 +39,9 @@ set -gx CPATH "$HOME/.nix-profile/include"
 set -gx LIBRARY_PATH "$HOME/.nix-profile/lib"
 set -gx QTDIR "$HOME/.nix-profile"
 
+set -g theme_short_path yes
+set -g fish_color_command normal
+
 #Fixes a neovim issue (among others opening commits from gblame): https://github.com/junegunn/fzf/issues/881
 function fish_vi_cursor; end
 function __fish_cursor1337; end
