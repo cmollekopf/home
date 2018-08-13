@@ -17,6 +17,7 @@
       - git
       - tig
       - tmux
+      - powerline-fonts
       - fish
       - polybar
       - i3
@@ -92,6 +93,10 @@
         enabled: yes
         state: restarted
         daemon_reload: yes
+    - name: install tpm
+      git:
+        repo: https://github.com/tmux-plugins/tpm
+        dest: /home/mollekopf/.tmux/plugins/tpm
 
     - name: lightdm
       systemd:
