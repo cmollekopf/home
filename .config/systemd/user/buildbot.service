@@ -3,6 +3,7 @@ Description=Buildbot
 
 [Service]
 WorkingDirectory=%h/buildbot
+ExecStartPre=%h/buildbot/venv/bin/python %h/buildbot/venv/bin/buildbot checkconfig master
 ExecStart=%h/buildbot/venv/bin/python %h/buildbot/venv/bin/buildbot start --nodaemon master
 ExecReload=/bin/kill -HUP $MAINPID
 ExecStop=%h/buildbot/venv/bin/python %h/buildbot/venv/bin/buildbot stop master
