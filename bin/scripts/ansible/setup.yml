@@ -51,6 +51,12 @@
       - php-json
       - ffmpeg
       - htop
+      - clang-tools-extra
+      - redshift
+      - fontawesome-fonts
+      - google-noto-mono-fonts
+      - google-noto-sans-fonts
+      - google-noto-serif-fonts
 
     - name: Set hostname
       hostname:
