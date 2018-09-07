@@ -25,6 +25,7 @@ end
 alias vim='nvim'
 alias notes='nvim ~/notes/stuff'
 alias todo='nvim ~/notes/todo'
+alias ls='exa'
 
 # alias startakonadi="systemd-cat -t "akonadi" akonadictl start"
 # alias akonadilog="journalctl -n99  -f SYSLOG_IDENTIFIER=akonadi"
