@@ -1,3 +1,4 @@
+#!/usr/bin/ansible-playbook -K
 - name: run the playbook tasks on the localhost
   hosts: 127.0.0.1
   connection: local
@@ -11,8 +12,6 @@
 
     - name: Install list of required packages
       package: name={{ item }} state=installed
-      become: yes
-      become_method: sudo
       with_items:
       - git
       - tig
@@ -126,8 +125,6 @@
         owner: root
         group: root
         mode: '0600'
-        #validate: '/usr/sbin/squid -k check'
-        backup: yes
 
     - name: reload networkmanager config
       command: nmcli connection reload
