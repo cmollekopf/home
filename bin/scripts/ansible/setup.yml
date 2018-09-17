@@ -119,7 +119,7 @@
       command: git clone https://github.com/phacility/arcanist.git  ~/bin/arcanist
       command: git clone https://github.com/phacility/libphutil.git  ~/bin/libphutil
 
-    - name: kolabsys vpn
+    - name: kolabsysvpn
       template:
         src: kolabsysvpn.networkmanager
         dest: /etc/NetworkManager/system-connections/kolabsys
@@ -128,3 +128,6 @@
         mode: '0600'
         #validate: '/usr/sbin/squid -k check'
         backup: yes
+
+    - name: reload networkmanager config
+      command: nmcli connection reload
