@@ -109,3 +109,22 @@
       systemd:
         name: lightdm
         enabled: yes
+
+    - name: abrtd
+      systemd:
+        name: abrtd
+        enabled: no
+
+    - name: arcanist
+      command: git clone https://github.com/phacility/arcanist.git  ~/bin/arcanist
+      command: git clone https://github.com/phacility/libphutil.git  ~/bin/libphutil
+
+    - name: kolabsys vpn
+      template:
+        src: kolabsysvpn.networkmanager
+        dest: /etc/NetworkManager/system-connections/kolabsys
+        owner: root
+        group: root
+        mode: '0600'
+        #validate: '/usr/sbin/squid -k check'
+        backup: yes
