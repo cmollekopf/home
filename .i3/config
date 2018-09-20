@@ -15,7 +15,8 @@ set $mod Mod1
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:Noto Mono, FontAwesome 10.6
+# font pango:Noto Mono, FontAwesome 10.6
+font pango:Noto Mono, FontAwesome 0
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -41,15 +42,14 @@ exec --no-startup-id udiskie -s
 bindsym $mod+Return exec termite
 
 # kill focused window
-bindsym $mod+Shift+q kill
 bindsym $mod+Shift+c kill
 
+bindsym $mod+Tab exec --no-startup-id "~/.i3/focus-next-visible.py"
+bindsym $mod+Shift+Tab exec --no-startup-id "~/.i3/focus-next-visible.py reverse"
+bindsym $mod+t exec "rofi -show windowcd -modi windowcd,window"
+
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+d exec "rofi -show drun"
 
 # change focus
 bindsym $mod+j focus down
@@ -93,7 +93,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+tab focus mode_toggle
+# bindsym $mod+tab focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
