@@ -14,7 +14,7 @@ class Srcbuild < Thor
             Kernel.system "mkdir -p #{root}/build"
             Kernel.system "mkdir -p #{root}/install"
             Kernel.system "xhost +local:root"
-            commandline = "docker run --rm #{extraargs} --network=host -v #{root}:/src -v #{root}/build:/build -v #{root}/install:/install #{workdirarg} --entrypoint='#{entrypoint}' kubedev #{cmd}"
+            commandline = "docker run --rm #{extraargs} -v #{root}:/src -v #{root}/build:/build -v #{root}/install:/install #{workdirarg} --entrypoint='#{entrypoint}' kubedev #{cmd}"
             # puts "Using the workdir: #{root}"
             # puts "Cmd: #{cmd}"
             puts "Commandline: #{commandline}"
