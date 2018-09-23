@@ -46,16 +46,20 @@ bindsym $mod+Shift+c kill
 
 bindsym $mod+Tab exec --no-startup-id "~/.i3/focus-next-visible.py"
 bindsym $mod+Shift+Tab exec --no-startup-id "~/.i3/focus-next-visible.py reverse"
+bindsym $mod+n exec --no-startup-id "~/.i3/focus-next-visible.py"
+bindsym $mod+p exec --no-startup-id "~/.i3/focus-next-visible.py reverse"
+bindsym $mod+j exec --no-startup-id "~/.i3/focus-next-visible.py"
+bindsym $mod+k exec --no-startup-id "~/.i3/focus-next-visible.py reverse"
 bindsym $mod+t exec "rofi -show windowcd -modi windowcd,window"
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec "rofi -show drun"
 
 # change focus
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+h focus left
-bindsym $mod+l focus right
+# bindsym $mod+j focus down
+# bindsym $mod+k focus up
+# bindsym $mod+h focus left
+# bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
