@@ -1,131 +1,125 @@
-#!/usr/bin/ansible-playbook -K
-- name: run the playbook tasks on the localhost
-  hosts: 127.0.0.1
-  connection: local
-  become: yes
-  become_method: sudo
-  tasks:
-    - name: Enable tjuberg/i3-desktop
-      command: dnf -y copr enable tjuberg/i3-desktop
-      args:
-        warn: no
+- name: Enable tjuberg/i3-desktop
+  command: dnf -y copr enable tjuberg/i3-desktop
+  args:
+    warn: no
 
-    - name: Install list of required packages
-      package: name={{ item }} state=installed
-      with_items:
-      - git
-      - tig
-      - tmux
-      - powerline-fonts
-      - fish
-      - polybar
-      - i3
-      - dunst
-      - network-manager-applet
-      - zeal
-      - neovim
-      - python3-neovim
-      - the_silver_searcher
-      - python
-      - nnn
-      - lightdm
-      - fish
-      - firefox
-      - docker
-      - flatpak
-      - gcc
-      - clang
-      - cmake
-      - spectacle
-      - udiskie
-      - keychain
-      - fzf
-      - termite
-      - slock
-      - pidgin
-      - shadow-utils
-      - pass
-      - ruby
-      - php
-      - php-json
-      - ffmpeg
-      - htop
-      - clang-tools-extra
-      - redshift
-      - fontawesome-fonts
-      - google-noto-mono-fonts
-      - google-noto-sans-fonts
-      - google-noto-serif-fonts
-      - exa
-      - dtrx
+- name: Install list of required packages
+  package: name={{ item }} state=installed
+  with_items:
+  - git
+  - tig
+  - tmux
+  - powerline-fonts
+  - fish
+  - polybar
+  - i3
+  - dunst
+  - network-manager-applet
+  - zeal
+  - neovim
+  - python3-neovim
+  - the_silver_searcher
+  - python
+  - nnn
+  - lightdm
+  - fish
+  - firefox
+  - docker
+  - flatpak
+  - gcc
+  - clang
+  - cmake
+  - spectacle
+  - udiskie
+  - keychain
+  - fzf
+  - termite
+  - slock
+  - pidgin
+  - shadow-utils
+  - pass
+  - ruby
+  - php
+  - php-json
+  - ffmpeg
+  - htop
+  - clang-tools-extra
+  - redshift
+  - fontawesome-fonts
+  - google-noto-mono-fonts
+  - google-noto-sans-fonts
+  - google-noto-serif-fonts
+  - exa
+  - dtrx
 
-    - name: Set hostname
-      hostname:
-        name: satellite1
+- name: Create the docker group
+  group:
+    name: docker
+    state: present
 
-    - name: Create the docker group
-      group:
-        name: docker
-        state: present
+- name: Setup user mollekopf
+  user:
+    name: mollekopf
+    shell: /bin/fish
+    groups: docker, wheel, audio
+    append: yes
 
-    - name: Setup user mollekopf
-      user:
-        name: mollekopf
-        shell: /bin/fish
-        groups: docker, wheel, audio
-        append: yes
+- name: sudo without password
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%wheel\s'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
 
-    - name: sudo without password
-      lineinfile:
-        path: /etc/sudoers
-        state: present
-        regexp: '^%wheel\s'
-        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+- name: Disable selinux
+  lineinfile:
+    path: /etc/selinux/config
+    regexp: '^SELINUX='
+    line: 'SELINUX=disabled'
 
-    - name: Setup docker storage
-      lineinfile:
-        path: /etc/sysconfig/docker-storage-setup
-        regexp: '^EXTRA_STORAGE_OPTIONS='
-        line: 'EXTRA_STORAGE_OPTIONS="-g /data/docker"'
+- name: restart docker
+  systemd:
+    name: docker
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
 
-    - name: Disable selinux
-      lineinfile:
-        path: /etc/selinux/config
-        regexp: '^SELINUX='
-        line: 'SELINUX=disabled'
+- name: install tpm
+  git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: /home/mollekopf/.tmux/plugins/tpm
 
-    - name: restart docker
-      systemd:
-        name: docker
-        enabled: yes
-        state: restarted
-        daemon_reload: yes
-    - name: install tpm
-      git:
-        repo: https://github.com/tmux-plugins/tpm
-        dest: /home/mollekopf/.tmux/plugins/tpm
+- name: lightdm
+  systemd:
+    name: lightdm
+    enabled: yes
 
-    - name: lightdm
-      systemd:
-        name: lightdm
-        enabled: yes
+- name: abrtd
+  systemd:
+    name: abrtd
+    enabled: no
 
-    - name: abrtd
-      systemd:
-        name: abrtd
-        enabled: no
+- name: arcanist
+  command: git clone https://github.com/phacility/arcanist.git  ~/bin/arcanist
+  command: git clone https://github.com/phacility/libphutil.git  ~/bin/libphutil
 
-    - name: arcanist
-      command: git clone https://github.com/phacility/arcanist.git  ~/bin/arcanist
-      command: git clone https://github.com/phacility/libphutil.git  ~/bin/libphutil
+- name: kolabsysvpn
+  template:
+    src: kolabsysvpn.networkmanager
+    dest: /etc/NetworkManager/system-connections/kolabsys
+    owner: root
+    group: root
+    mode: '0600'
 
-    - name: kolabsysvpn
-      template:
-        src: kolabsysvpn.networkmanager
-        dest: /etc/NetworkManager/system-connections/kolabsys
-        owner: root
-        group: root
-        mode: '0600'
+- name: reload networkmanager config
+  command: nmcli connection reload
 
-    - name: reload networkmanager config
-      command: nmcli connection reload
+- name: abrtd
+  systemd:
+    name: syncthing
+    enabled: yes
+
+- firewalld:
+    service: syncthing
+    permanent: true
+    state: enabled
