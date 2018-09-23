@@ -57,6 +57,7 @@
       - google-noto-sans-fonts
       - google-noto-serif-fonts
       - exa
+      - dtrx
 
     - name: Set hostname
       hostname:
