@@ -14,7 +14,9 @@
     - fish
     - polybar
     - i3
+    - python3-i3ipc
     - dunst
+    - rofi
     - network-manager-applet
     - zeal
     - neovim
@@ -53,3 +55,4 @@
     - exa
     - dtrx
     - syncthing
+    - fd-find
