@@ -35,12 +35,7 @@ alias devenv='~/docker/testenv.py'
 
 alias ackf='ack -g --color'
 
-set -gx GOPATH "$HOME/bin/go"
-set -gx PATH $PATH "$HOME/.local/share/flatpak/exports/bin/" "$HOME/bin" "$HOME/bin/scripts" "$HOME/bin/go" "$HOME/bin/go/bin" "$HOME/.cargo/bin" "$HOME/bin/arcanist/bin"
 
-set -gx CPATH "$HOME/.nix-profile/include"
-set -gx LIBRARY_PATH "$HOME/.nix-profile/lib"
-set -gx QTDIR "$HOME/.nix-profile"
 
 set -g theme_short_path yes
 set -g fish_color_command normal
