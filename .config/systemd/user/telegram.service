@@ -1,0 +1,9 @@
+[Unit]
+Description=Telegram
+
+[Service]
+ExecStart=%h/bin/Telegram/Telegram
+Restart=on-abort
+
+[Install]
+WantedBy=graphical.target

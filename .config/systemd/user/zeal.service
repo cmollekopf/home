@@ -1,0 +1,9 @@
+[Unit]
+Description=Zeal
+
+[Service]
+ExecStart=/usr/bin/zeal
+Restart=on-abort
+
+[Install]
+WantedBy=graphical.target
