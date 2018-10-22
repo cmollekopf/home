@@ -64,6 +64,7 @@
   systemd:
     name: syncthing
     enabled: yes
+    user: yes
 
 - firewalld:
     service: syncthing
