@@ -2,7 +2,8 @@
 Description=Telegram
 
 [Service]
-ExecStart=%h/bin/Telegram/Telegram
+Environment=XDG_CURRENT_DESKTOP=""
+ExecStart=/usr/bin/telegram-desktop
 Restart=on-abort
 
 [Install]
