@@ -1,6 +1,7 @@
 [user]
 	email = chrigi_1@fastmail.fm
 	name = Christian Mollekopf
+	signingkey = 1784D538EA657400
 [gui]
 	spellingdictionary = none
 [url "git://anongit.kde.org/"]
@@ -47,3 +48,5 @@
 	rebase = true
 [tar "tar.xz"]
 	command = xz -c
+[gpg]
+	program = gpg2
