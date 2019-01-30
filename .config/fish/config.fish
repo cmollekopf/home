@@ -19,8 +19,8 @@ set --export TERM "screen-256color"
 
 
 alias vim='nvim'
-alias notes='nvim ~/notes/stuff'
-alias todo='nvim ~/notes/todo'
+alias notes='nvim ~/data/notes/stuff'
+alias todo='nvim ~/data/notes/todo'
 alias ls='exa'
 alias extract='dtrx'
 alias rscp="rsync -avzP"
