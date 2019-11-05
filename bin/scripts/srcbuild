@@ -46,7 +46,15 @@ class Srcbuild < Thor
         end
 
         def docker_options_x11
-            "--security-opt seccomp:unconfined -v /tmp/.docker.xauth:/tmp/.docker.xauth -v /tmp/.X11-unix:/tmp/.X11-unix --device /dev/dri/card0:/dev/dri/card0 -e DISPLAY=#{ENV['DISPLAY']} -e XAUTHORITY=/tmp/.docker.xauth --privileged"
+            [
+                "--privileged", #Required for gdb
+                "--userns=keep-id", #Same uid as host for file access
+                "--security-opt=label=type:container_runtime_t", #SE linux compatibility
+                #X11 access
+                "-v /tmp/.X11-unix:/tmp/.X11-unix",
+                "--device /dev/dri/card0:/dev/dri/card0",
+                "-e DISPLAY"
+            ].join(' ')
         end
 
         def cpuCores
