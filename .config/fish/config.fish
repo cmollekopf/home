@@ -38,6 +38,7 @@ alias ackf='ack -g --color'
 
 set -g theme_short_path yes
 set -g fish_color_command normal
+set -g fish_color_comment red
 
 #Fixes a neovim issue (among others opening commits from gblame): https://github.com/junegunn/fzf/issues/881
 function fish_vi_cursor; end
