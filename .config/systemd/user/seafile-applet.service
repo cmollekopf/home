@@ -9,4 +9,4 @@ Restart=on-abort
 IOSchedulingClass=idle
 
 [Install]
-WantedBy=graphical.target
+WantedBy=graphical-session.target

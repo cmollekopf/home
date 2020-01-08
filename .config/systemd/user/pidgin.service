@@ -6,4 +6,4 @@ ExecStart=/usr/bin/pidgin
 Restart=on-abort
 
 [Install]
-WantedBy=graphical.target
+WantedBy=graphical-session.target
