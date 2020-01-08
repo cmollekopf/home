@@ -1,8 +1,18 @@
 ---
-- name: Enable tjuberg/i3-desktop
-  command: dnf -y copr enable tjuberg/i3-desktop
+- name: Enable alebastr/waybar
+  command: dnf -y copr enable alebastr/waybar
   args:
     warn: no
+
+- name: install the rpmfusion repo packages
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ fedora_current }}.noarch.rpm
+    - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ fedora_current }}.noarch.rpm
+    #sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+    #sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 - name: Install list of required packages
   package: name={{ item }} state=installed
@@ -12,10 +22,15 @@
     - tmux
     - powerline-fonts
     - fish
-    - polybar
-    - i3
-    - python3-i3ipc
-    - dunst
+    - sway
+    - swaylock
+    - swayidle
+    - jq
+      #- slurp
+      #- grim
+    - light
+    - waybar
+    - mako
     - rofi
     - network-manager-applet
     - zeal
@@ -27,33 +42,35 @@
     - lightdm
     - fish
     - firefox
-    - docker
     - flatpak
+    - pavucontrol
+    - podman
+    - podman-docker
     - gcc
     - clang
     - cmake
-    - spectacle
+    - make
     - udiskie
     - keychain
     - fzf
     - termite
-    - slock
     - pidgin
     - shadow-utils
     - pass
     - ruby
     - php
     - php-json
-    - ffmpeg
+    - ffmpeg # For netflix, needs rpmfusion
     - htop
     - clang-tools-extra
     - redshift
     - fontawesome-fonts
-    - google-noto-mono-fonts
+      #- google-noto-mono-fonts
     - google-noto-sans-fonts
     - google-noto-serif-fonts
     - exa
-    - dtrx
+      #- dtrx
     - syncthing
     - fd-find
-    - telegram-desktop
+      #- telegram-desktop
+    - seafile

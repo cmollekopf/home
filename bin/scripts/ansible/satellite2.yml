@@ -7,19 +7,13 @@
   tasks:
     - name: Set hostname
       hostname:
-        name: dws07.kolabsys.com
+        name: satellite2
 
     - import_tasks: packages.yml
 
-    - name: Setup docker storage
-      lineinfile:
-        path: /etc/sysconfig/docker-storage-setup
-        regexp: '^EXTRA_STORAGE_OPTIONS='
-        line: 'EXTRA_STORAGE_OPTIONS="-g /data/docker"'
-
     - name: kolabsysvpn
         template:
-          src: kolabsysvpn.networkmanager
+          src: kolabsysvpn2.networkmanager
           dest: /etc/NetworkManager/system-connections/kolabsys
           owner: root
           group: root

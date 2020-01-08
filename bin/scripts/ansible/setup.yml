@@ -1,13 +1,8 @@
-- name: Create the docker group
-  group:
-    name: docker
-    state: present
-
 - name: Setup user mollekopf
   user:
     name: mollekopf
     shell: /bin/fish
-    groups: docker, wheel, audio
+    groups: wheel, audio
     append: yes
 
 - name: sudo without password
@@ -21,50 +16,41 @@
   lineinfile:
     path: /etc/selinux/config
     regexp: '^SELINUX='
-    line: 'SELINUX=disabled'
-
-- name: restart docker
-  systemd:
-    name: docker
-    enabled: yes
-    state: restarted
-    daemon_reload: yes
+    line: 'SELINUX=permissive'
 
 - name: install tpm
+  become: true
+  become_user: mollekopf
   git:
     repo: https://github.com/tmux-plugins/tpm
     dest: /home/mollekopf/.tmux/plugins/tpm
+    scope: user
 
-- name: lightdm
-  systemd:
-    name: lightdm
-    enabled: yes
+    #- name: lightdm
+    #systemd:
+    #name: lightdm
+    #enabled: yes
 
 - name: abrtd
   systemd:
     name: abrtd
     enabled: no
 
-- name: arcanist
-  command: git clone https://github.com/phacility/arcanist.git  ~/bin/arcanist
-  command: git clone https://github.com/phacility/libphutil.git  ~/bin/libphutil
-
-- name: kolabsysvpn
-  template:
-    src: kolabsysvpn.networkmanager
-    dest: /etc/NetworkManager/system-connections/kolabsys
-    owner: root
-    group: root
-    mode: '0600'
+    #- name: arcanist
+    #  command: git clone https://github.com/phacility/arcanist.git  ~/bin/arcanist
+    #  command: git clone https://github.com/phacility/libphutil.git  ~/bin/libphutil
 
 - name: reload networkmanager config
   command: nmcli connection reload
 
-- name: abrtd
+- name: syncthing
+  become: true
+  become_user: mollekopf
   systemd:
     name: syncthing
     enabled: yes
-    user: yes
+    daemon_reload: yes
+    scope: user
 
 - firewalld:
     service: syncthing

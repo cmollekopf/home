@@ -9,11 +9,11 @@ zone=work
 
 [vpn]
 ca=/home/mollekopf/.pki/openvpn/kolabsys.com/ca.crt
-cert=/home/mollekopf/.pki/openvpn/kolabsys.com/mollekopf.crt
+cert=/home/mollekopf/.pki/openvpn/kolabsys.com/mollekopf2.crt
 cert-pass-flags=1
 comp-lzo=yes
 connection-type=tls
-key=/home/mollekopf/.pki/openvpn/kolabsys.com/mollekopf.key
+key=/home/mollekopf/.pki/openvpn/kolabsys.com/mollekopf2.key
 mssfix=no
 proto-tcp=yes
 remote=vpn.kolabsys.com
