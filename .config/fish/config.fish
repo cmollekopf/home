@@ -46,7 +46,6 @@ function fish_vi_cursor; end
 function __fish_cursor1337; end
 fish_vi_key_bindings
 
-set -U FZF_LEGACY_KEYBINDINGS 0
 
 # if status --is-interactive; and not set -q TMUX
 #     tmux attach -t default; or tmux new -s default
