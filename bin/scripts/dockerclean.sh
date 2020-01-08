@@ -5,4 +5,4 @@
 
 # echo "Removing unused images"
 # docker rmi $(docker images | grep "^<none>" | awk '{print $3}' ORS=' ')
-docker system prune -af
+docker system prune -f
