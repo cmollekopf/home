@@ -1,0 +1,6 @@
+export GOPATH="$HOME/bin/go"
+export PATH="/usr/sbin/:$HOME/.local/share/flatpak/exports/bin/:$HOME/bin:$HOME/bin/scripts:$HOME/bin/go:$HOME/bin/go/bin:$HOME/bin/arcanist/bin:$HOME/.gem/ruby:/usr/share/gems:/usr/local/share/gems:$HOME/.cargo/bin:$PATH"
+
+export XDG_CURRENT_DESKTOP=kde
+export QT_QPA_PLATFORMTHEME=qt5ct
+export SSH_AUTH_SOCK=/run/gnupg/S.gpg-agent.ssh
