@@ -14,6 +14,8 @@
 	pushInsteadOf = kolab:
 [url "ssh://git@github.com/"]
 	insteadOf = github:
+[url "ssh://bifrost.kolabsystems.com/source/"]
+	insteadOf = bifrost:
 [color]
 	ui = true
 [push]
