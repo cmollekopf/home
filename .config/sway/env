@@ -1,0 +1,8 @@
+_JAVA_AWT_WM_NONREPARENTING=1
+CLUTTER_BACKEND=wayland
+GOPATH=/home/mollekopf/bin/go
+PATH=/usr/sbin/:/home/mollekopf/.local/share/flatpak/exports/bin/:/home/mollekopf/bin:/home/mollekopf/bin/scripts:/home/mollekopf/bin/go:/home/mollekopf/bin/go/bin:/home/mollekopf/bin/arcanist/bin:/home/mollekopf/.gem/ruby:/usr/share/gems:/usr/local/share/gems:/home/mollekopf/.cargo/bin:/home/mollekopf/.fzf/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
+XDG_CURRENT_DESKTOP=kde
+QT_QPA_PLATFORMTHEME=qt5ct
+MOZ_ENABLE_WAYLAND=1
+SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh

@@ -204,4 +204,3 @@ client.urgent   		    #4a4b4c #4a4b4c #fdfdfd  #fbfbfb   #4a4c4b
 client.placeholder     		    #000000 #0c0c0c #ffffff  #000000   #0c0c0c
 client.background       	    #111111
 
-exec "systemctl --user import-environment; systemctl --user start sway-session.target"
