@@ -14,7 +14,14 @@ class Srcbuild < Thor
             Kernel.system "mkdir -p #{root}/build"
             Kernel.system "mkdir -p #{root}/install"
             Kernel.system "xhost +local:root"
-            commandline = "docker run --rm #{extraargs} -v #{root}:/src -v #{root}/build:/build -v #{root}/install:/install #{workdirarg} --entrypoint='#{entrypoint}' kubedev #{cmd}"
+
+            args = [
+                "--userns=keep-id", #Same uid as host for file access
+                "--security-opt=label=type:container_runtime_t", #SE linux compatibility
+                extraargs
+            ].join(' ')
+
+            commandline = "docker run --rm #{args} -v #{root}:/src -v #{root}/build:/build -v #{root}/install:/install #{workdirarg} --entrypoint='#{entrypoint}' kubedev #{cmd}"
             # puts "Using the workdir: #{root}"
             # puts "Cmd: #{cmd}"
             puts "Commandline: #{commandline}"
@@ -48,8 +55,6 @@ class Srcbuild < Thor
         def docker_options_x11
             [
                 "--privileged", #Required for gdb
-                "--userns=keep-id", #Same uid as host for file access
-                "--security-opt=label=type:container_runtime_t", #SE linux compatibility
                 #X11 access
                 "-v /tmp/.X11-unix:/tmp/.X11-unix",
                 "--device /dev/dri/card0:/dev/dri/card0",
