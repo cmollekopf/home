@@ -2,6 +2,7 @@
 Description=Pidgin Messenger
 
 [Service]
+Environment="DISPLAY=:0"
 ExecStart=/usr/bin/pidgin
 Restart=on-abort
 

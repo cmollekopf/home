@@ -2,10 +2,9 @@
 Description=Seafile Applet
 
 [Service]
+Environment="DISPLAY=:0"
 ExecStart=/usr/bin/seafile-applet
-
 Restart=on-abort
-
 IOSchedulingClass=idle
 
 [Install]
