@@ -38,8 +38,8 @@
         "spacing": 10
     },
     "clock": {
-        "tooltip-format": "{:%Y-%m-%d | %H:%M}",
-        "format-alt": "{:%Y-%m-%d}"
+        "format": "{:%H:%M %d.%m.%Y}",
+        "tooltip-format": "{:%Y-%m-%d | %H:%M}"
     },
     "cpu": {
         "format": "{usage}% ",
