@@ -41,13 +41,6 @@ bindsym $mod+Return exec $term
 # kill focused window
 bindsym $mod+Shift+c kill
 
-#bindsym $mod+Tab exec --no-startup-id "~/.i3/focus-next-visible.py"
-#bindsym $mod+Shift+Tab exec --no-startup-id "~/.i3/focus-next-visible.py reverse"
-# bindsym $mod+n exec --no-startup-id "~/.i3/focus-next-visible.py"
-# bindsym $mod+p exec --no-startup-id "~/.i3/focus-next-visible.py reverse"
-# bindsym $mod+j exec --no-startup-id "~/.i3/focus-next-visible.py"
-# bindsym $mod+k exec --no-startup-id "~/.i3/focus-next-visible.py reverse"
-# bindsym $mod+t exec "rofi -show windowcd -modi windowcd,window"
 bindsym $mod+p exec $pass
 bindsym $mod+b exec $boom
 bindsym $mod+q exec $lock
