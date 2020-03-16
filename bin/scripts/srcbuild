@@ -21,7 +21,7 @@ class Srcbuild < Thor
                 extraargs
             ].join(' ')
 
-            commandline = "docker run --rm #{args} -v #{root}:/src -v #{root}/build:/build -v #{root}/install:/install #{workdirarg} --entrypoint='#{entrypoint}' kubedev #{cmd}"
+            commandline = "docker run --rm #{args} -v #{root}:/src -v #{root}/build:/build -v #{root}/install:/install -v ~/.config/nvim:/home/developer/.config/nvim #{workdirarg} --mount=type=tmpfs,destination=/home/developer/.local --entrypoint='#{entrypoint}' kubedev #{cmd}"
             # puts "Using the workdir: #{root}"
             # puts "Cmd: #{cmd}"
             puts "Commandline: #{commandline}"
@@ -58,7 +58,12 @@ class Srcbuild < Thor
                 #X11 access
                 "-v /tmp/.X11-unix:/tmp/.X11-unix",
                 "--device /dev/dri/card0:/dev/dri/card0",
-                "-e DISPLAY"
+                "-e DISPLAY",
+                "-e XDG_RUNTIME_DIR=/tmp",
+                "-e WAYLAND_DISPLAY",
+                "-v $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:/tmp/$WAYLAND_DISPLAY",
+                "-e QT_QPA_PLATFORM=wayland",
+                "-e XDG_SESSION_TYPE=wayland"
             ].join(' ')
         end
 
@@ -70,6 +75,11 @@ class Srcbuild < Thor
     desc "enter", "Enter shell."
     def enter
         runInDocker '', workdir: dockerBuildDir, interactive: true, extraargs: docker_options_x11, entrypoint: "/bin/bash"
+    end
+
+    desc "vim", "Enter editor."
+    def vim
+        runInDocker '', workdir: dockerSrcDir, interactive: true, extraargs: docker_options_x11, entrypoint: "/bin/nvim"
     end
 
     desc "configure", "Configure builddir."
