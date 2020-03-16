@@ -3,6 +3,7 @@ set $lock swaylock -f -i ~/.config/sway/wallpaper.jpg -s fill
 set $wifi ~/.config/rofi/modi/nmcli
 set $pass ~/.config/rofi/modi/rofi-pass.sh
 set $menu rofi -m $(expr $(swaymsg -t get_tree | jq '.nodes | map([recurse(.nodes[]?, .floating_nodes[]?) | .focused] | any) | index(true)') - 1) -show drun -run-command 'swaymsg exec -- {cmd}'
+set $boom ~/.config/rofi/modi/rofi-boom.sh
 set $menu rofi -m $(swaymsg -t get_outputs | jq 'map(select(.active) | .focused) | index(true)') -show drun -run-command 'swaymsg exec -- {cmd}'
 set $term termite
 
@@ -48,6 +49,7 @@ bindsym $mod+Shift+c kill
 # bindsym $mod+k exec --no-startup-id "~/.i3/focus-next-visible.py reverse"
 # bindsym $mod+t exec "rofi -show windowcd -modi windowcd,window"
 bindsym $mod+p exec $pass
+bindsym $mod+b exec $boom
 bindsym $mod+q exec $lock
 bindsym $mod+End exec $wifi
 
