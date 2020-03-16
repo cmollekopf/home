@@ -5,6 +5,7 @@ tags
 .bundle
 .cache
 .adobe
+.cargo
 .fonts
 .gem
 .local
@@ -29,6 +30,11 @@ tags
 .thunderbird
 .var
 kdebuild
-~/Downloads
-~/data
+/home/mollekopf/Downloads
+/home/mollekopf/Pictures
+/home/mollekopf/Seafile
+/home/mollekopf/data
+/home/mollekopf/rpmbuild
+/home/mollekopf/src
 intel
+/home/mollekopf/bin/Postman
