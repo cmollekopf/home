@@ -1,10 +1,12 @@
-set $screen XWAYLAND$(swaymsg -t get_outputs | jq 'map(select(.active) | .focused) | index(true)')
+set $screen $(swaymsg -t get_outputs | jq 'map(select(.active) | .focused) | index(true)')
+# Somehow xwayland windows are not consitently numbered with wayland ones. We therefore extract the name with xrandr (using the curren screen by order from $screen). This gives use typically something like XWAYLAND$NUMBER
+set $xscreenname $(xrandr --listactivemonitors | grep $screen: | awk -F' ' '{print $NF}')
 set $mod Mod1
 set $lock swaylock -f -i ~/.config/sway/wallpaper.jpg -s fill
 set $wifi ~/.config/rofi/modi/nmcli
-set $pass ~/.config/rofi/modi/rofi-pass.sh $screen
-set $boom ~/.config/rofi/modi/rofi-boom.sh $screen
-set $menu rofi -m $screen -show drun -run-command 'swaymsg exec -- {cmd}'
+set $pass ~/.config/rofi/modi/rofi-pass.sh $xscreenname
+set $boom ~/.config/rofi/modi/rofi-boom.sh $xscreenname
+set $menu rofi -m $xscreenname -show drun -run-command 'swaymsg exec -- {cmd}'
 set $term termite
 
 input * xkb_layout "ch"
