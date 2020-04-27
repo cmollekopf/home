@@ -32,7 +32,15 @@ output "*" bg ~/.config/sway/wallpaper.jpg fill
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:Noto Mono, FontAwesome 9
+# font pango:Noto Mono, FontAwesome 9
+
+# Invisible title bars
+font pango:Noto Mono, "Noto Sans Emoji" 0
+titlebar_border_thickness 0
+titlebar_padding 0 0
+
+# Avoid moving between outputs when going through windows in tabbed layout
+focus_wrapping force
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -85,10 +93,10 @@ bindsym $mod+Shift+Right move right
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+w layout tabbed
+# change container layout (stacking, tabbed, toggle split)
+bindsym $mod+w layout stacking
 bindsym $mod+e layout toggle split
-workspace_layout tabbed
+workspace_layout stacking
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
