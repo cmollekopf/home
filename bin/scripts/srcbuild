@@ -18,10 +18,16 @@ class Srcbuild < Thor
             args = [
                 "--userns=keep-id", #Same uid as host for file access
                 "--security-opt=label=type:container_runtime_t", #SE linux compatibility
-                extraargs
+                extraargs,
+                "-v #{root}:/src",
+                "-v #{root}/build:/build",
+                "-v #{root}/install:/install",
+                "-v ~/.config/nvim:/home/developer/.config/nvim",
+                "--shm-size 1g", #We need more than the default 64mb of shared memory for chromium
+                "--mount=type=tmpfs,destination=/home/developer/.local"
             ].join(' ')
 
-            commandline = "docker run --rm #{args} -v #{root}:/src -v #{root}/build:/build -v #{root}/install:/install -v ~/.config/nvim:/home/developer/.config/nvim #{workdirarg} --mount=type=tmpfs,destination=/home/developer/.local --entrypoint='#{entrypoint}' kubedev #{cmd}"
+            commandline = "docker run --rm #{args} #{workdirarg} --entrypoint='#{entrypoint}' kubedev #{cmd}"
             # puts "Using the workdir: #{root}"
             # puts "Cmd: #{cmd}"
             puts "Commandline: #{commandline}"
