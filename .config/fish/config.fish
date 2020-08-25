@@ -31,7 +31,6 @@ alias arcpatch="arc patch --nobranch"
 
 # alias startakonadi="systemd-cat -t "akonadi" akonadictl start"
 # alias akonadilog="journalctl -n99  -f SYSLOG_IDENTIFIER=akonadi"
-alias devenv='~/docker/testenv.py'
 
 alias ackf='ack -g --color'
 
