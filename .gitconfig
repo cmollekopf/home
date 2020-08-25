@@ -4,9 +4,9 @@
 	signingkey = 1784D538EA657400
 [gui]
 	spellingdictionary = none
-[url "git://anongit.kde.org/"]
+[url "git@invent.kde.org:"]
 	insteadOf = kde:
-[url "git@git.kde.org:"]
+[url "git@invent.kde.org:"]
 	pushInsteadOf = kde:
 [url "https://git.kolab.org/diffusion/"]
 	insteadOf = kolab:
