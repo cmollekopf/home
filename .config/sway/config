@@ -213,7 +213,14 @@ for_window [title="Dino"] floating enable; resize set 100 ppt 80 ppt; move scrat
 bindsym $mod+s [title="Dino"] scratchpad show
 
 for_window [title="scratchterm"] floating enable; resize set 100 ppt 80 ppt; move scratchpad
-bindsym $mod+t [title="scratchterm"] scratchpad show
-exec $term -t scratchterm
+
+# bindsym $mod+t [title="scratchterm"] scratchpad show
+# exec $term -t scratchterm
+#
+
+# Workaround for firefox sharing indicator
+for_window [title="Firefox - Sharing Indicator"] kill
 exec wl-paste -t text --watch clipman store
 
+# Be able to open links per https://github.com/flatpak/xdg-desktop-portal/issues/285
+exec "dbus-update-activation-environment --systemd DISPLAY MOZ_DBUS_REMOTE"
