@@ -27,7 +27,7 @@ class Srcbuild < Thor
                 "--mount=type=tmpfs,destination=/home/developer/.local"
             ].join(' ')
 
-            commandline = "docker run --rm #{args} #{workdirarg} --entrypoint='#{entrypoint}' kubedev #{cmd}"
+            commandline = "podman run --rm #{args} #{workdirarg} --entrypoint='#{entrypoint}' kubedev #{cmd}"
             # puts "Using the workdir: #{root}"
             # puts "Cmd: #{cmd}"
             puts "Commandline: #{commandline}"
