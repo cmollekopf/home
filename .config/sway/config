@@ -6,7 +6,7 @@ set $lock swaylock -f -i ~/.config/sway/wallpaper.jpg -s fill
 set $wifi ~/.config/rofi/modi/nmcli
 set $pass ~/.config/rofi/modi/rofi-pass.sh $xscreenname
 set $boom ~/.config/rofi/modi/rofi-boom.sh $xscreenname
-set $menu rofi -m $xscreenname -show drun -run-command 'swaymsg exec -- {cmd}'
+set $menu wofi --show drun
 set $term termite
 
 input * xkb_layout "ch"
@@ -51,6 +51,9 @@ bindsym $mod+Return exec $term
 # kill focused window
 bindsym $mod+Shift+c kill
 
+bindsym $mod+tab workspace next_on_output
+bindsym $mod+Shift+tab workspace prev_on_output
+
 bindsym $mod+p exec $pass
 bindsym $mod+b exec $boom
 bindsym $mod+q exec $lock
@@ -67,10 +70,10 @@ bindsym $mod+h focus left
 bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+# bindsym $mod+Left focus left
+# bindsym $mod+Down focus down
+# bindsym $mod+Up focus up
+# bindsym $mod+Right focus right
 
 # move focused window
 bindsym $mod+Shift+j move left
@@ -79,10 +82,10 @@ bindsym $mod+Shift+h move left
 bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+# bindsym $mod+Shift+Left move left
+# bindsym $mod+Shift+Down move down
+# bindsym $mod+Shift+Up move up
+# bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 #bindsym $mod+h split h
@@ -155,7 +158,7 @@ mode "resize" {
     bindsym j resize shrink width 10 px or 10 ppt
     bindsym k resize grow height 10 px or 10 ppt
     bindsym l resize shrink height 10 px or 10 ppt
-    bindsym odiaeresis resize grow width 10 px or 10 ppt
+    bindsym h resize grow width 10 px or 10 ppt
 
     # same bindings, but for the arrow keys
     bindsym Left resize shrink width 10 px or 10 ppt
@@ -191,6 +194,7 @@ bindsym XF86WLAN exec --no-startup-id nmcli radio wifi $(nmcli radio wifi | grep
 # bindsym XF86AudioNext exec playerctl next
 # bindsym XF86AudioPrev exec playerctl previous
 
+bindsym $mod+m exec grim -g "$(slurp)" $(xdg-user-dir PICTURES)/$(date +'%Y-%m-%d-%H%M%S_grim.png')
 bindsym --release Print exec grim -g \"$(slurp)" $(xdg-user-dir PICTURES)/$(date +'%Y-%m-%d-%H%M%S_grim.png')
 bindsym $mod+Print exec grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') $(xdg-user-dir PICTURES)/$(date +'%Y-%m-%d-%H%M%S_grim.png')
 
@@ -219,8 +223,16 @@ for_window [title="scratchterm"] floating enable; resize set 100 ppt 80 ppt; mov
 #
 
 # Workaround for firefox sharing indicator
-for_window [title="Firefox - Sharing Indicator"] kill
-exec wl-paste -t text --watch clipman store
+# for_window [title="Firefox — Sharing Indicator"] kill
+# We're using firefox config to disable the indicator now:
+#privacy.webrtc.hideGlobalIndicator = true
+#privacy.webrtc.legacyGlobalIndicator = false
+
+exec wl-paste -t text --watch clipman store --no-persist
+bindsym $mod+c exec clipman pick -t wofi
 
 # Be able to open links per https://github.com/flatpak/xdg-desktop-portal/issues/285
 exec "dbus-update-activation-environment --systemd DISPLAY MOZ_DBUS_REMOTE"
+exec mako
+
+bindsym $mod+n exec makoctl dismiss
