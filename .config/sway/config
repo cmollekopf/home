@@ -7,7 +7,7 @@ set $wifi ~/.config/rofi/modi/nmcli
 set $pass ~/.config/rofi/modi/rofi-pass.sh $xscreenname
 set $boom ~/.config/rofi/modi/rofi-boom.sh $xscreenname
 set $menu wofi --show drun
-set $term termite
+set $term alacritty
 
 input * xkb_layout "ch"
 output eDP-1 scale 1.5
