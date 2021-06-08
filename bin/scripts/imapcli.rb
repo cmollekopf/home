@@ -13,7 +13,13 @@ class ImapCli < Thor
   no_commands {
     def imap()
       if !@imap
-        @imap = Net::IMAP.new(options[:host], :port => options[:port], :ssl => options[:ssl])
+        if options[:ssl]
+          @imap = Net::IMAP.new(options[:host], :port => options[:port], :ssl => {
+            :verify_mode => OpenSSL::SSL::VERIFY_NONE
+          })
+        else
+          @imap = Net::IMAP.new(options[:host], :port => options[:port], :ssl => false)
+        end
         @imap.login(options[:username], options[:password])
       end
       @imap
