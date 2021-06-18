@@ -165,7 +165,21 @@ class ActiveSync:
         self.username = options.username
         self.password = options.password
         self.verbose = options.verbose
-        self.options = options
+
+        if options.deviceid:
+            self.deviceid = options.deviceid
+        else:
+            self.deviceid = 'v140Device'
+
+        if options.devicetype:
+            self.devicetype = options.devicetype
+        else:
+            self.devicetype = 'iphone'
+
+        if options.folder:
+            self.folder = options.folder
+        else:
+            self.folder = None
 
 
     def send_request(self, command, request):
@@ -184,7 +198,7 @@ class ActiveSync:
         )
 
         return http_request(
-            f"https://{self.host}/Microsoft-Server-ActiveSync?Cmd={command}&User={self.username}&DeviceId=v140Device&DeviceType=iphone",
+            f"https://{self.host}/Microsoft-Server-ActiveSync?Cmd={command}&User={self.username}&DeviceId={self.deviceid}&DeviceType={self.devicetype}",
             "POST",
             None,
             headers,
@@ -246,7 +260,7 @@ class ActiveSync:
                     </Options>
                 </Collection>
             </Collections>
-            <WindowSize>100</WindowSize>
+            <WindowSize>512</WindowSize>
         </Sync>
         """.replace('    ', '').replace('\n', '')
 
@@ -265,40 +279,42 @@ class ActiveSync:
         root = ET.fromstring(result)
         xmlns = "http://synce.org/formats/airsync_wm5/airsync"
         sync_key = root.find(f".//{{{xmlns}}}SyncKey").text
-        # more_available = (len(root.findall(f".//{{{xmlns}}}MoreAvailable")) == 1)
+        more_available = (len(root.findall(f".//{{{xmlns}}}MoreAvailable")) == 1)
         if self.verbose:
             print("Current SyncKey:", sync_key)
 
         for add in root.findall(f".//{{{xmlns}}}Add"):
             serverId = add.find(f"{{{xmlns}}}ServerId").text
-            print("ServerId", serverId)
+            print("  ServerId", serverId)
             applicationData = add.find(f"{{{xmlns}}}ApplicationData")
 
             calxmlns = "http://synce.org/formats/airsync_wm5/calendar"
             subject = applicationData.find(f"{{{calxmlns}}}Subject")
-            print("Subject", subject.text)
+            print("  Subject", subject.text)
             startTime = applicationData.find(f"{{{calxmlns}}}StartTime")
-            print("StartTime", startTime.text)
+            print("  StartTime", startTime.text)
             timeZone = applicationData.find(f"{{{calxmlns}}}TimeZone")
 
             #the dates are encoded like so: vstdyear/vstdmonth/vstdday/vstdweek/vstdhour/vstdminute/vstdsecond/vstdmillis
             decoded = base64.b64decode(timeZone.text)
             bias, standardName, standardDate, standardBias, daylightName, daylightDate, daylightBias = struct.unpack('i64s16si64s16si', decoded)
-            print(f"TimeZone bias: {bias}")
+            print(f"  TimeZone bias: {bias}min")
+            print("")
 
 
         print("\n")
 
-        if sync_key == "2":
-            return
+        # Fetch after the initial sync
+        if sync_key == "1":
+            self.fetch(collection_id, sync_key)
 
-        self.fetch(collection_id, sync_key)
+        # Fetch more
+        if more_available:
+            self.fetch(collection_id, sync_key)
 
 
 
     def list(self):
-        folder = 'Calendar'
-
         request = """
             <?xml version="1.0" encoding="utf-8"?>
             <!DOCTYPE ActiveSync PUBLIC "-//MICROSOFT//DTD ActiveSync//EN" "http://www.microsoft.com/">
@@ -328,7 +344,7 @@ class ActiveSync:
             print("ServerId", serverId)
             print("DisplayName", displayName)
 
-            if displayName == folder:
+            if self.folder and displayName == self.folder:
                 self.fetch(serverId)
 
 # response = http_request(
@@ -350,8 +366,11 @@ def main():
     parser.add_argument("--username", help="Output directory")
     parser.add_argument("--password", help="User password to use for all files")
     parser.add_argument("--verbose", action='store_true', help="Verbose output")
+    parser.add_argument("--deviceid", action='store_true', help="deviceid")
+    parser.add_argument("--devicetype", action='store_true', help="devicetype")
 
     parser_list = subparsers.add_parser('list')
+    parser_list.add_argument("--folder", help="Folder")
     parser_list.set_defaults(func=lambda args: ActiveSync(args).list())
 
     parser_check = subparsers.add_parser('check')
