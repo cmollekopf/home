@@ -294,11 +294,11 @@ class ActiveSync:
             startTime = applicationData.find(f"{{{calxmlns}}}StartTime")
             print("  StartTime", startTime.text)
             timeZone = applicationData.find(f"{{{calxmlns}}}TimeZone")
-
-            #the dates are encoded like so: vstdyear/vstdmonth/vstdday/vstdweek/vstdhour/vstdminute/vstdsecond/vstdmillis
-            decoded = base64.b64decode(timeZone.text)
-            bias, standardName, standardDate, standardBias, daylightName, daylightDate, daylightBias = struct.unpack('i64s16si64s16si', decoded)
-            print(f"  TimeZone bias: {bias}min")
+            if timeZone is not None:
+                #the dates are encoded like so: vstdyear/vstdmonth/vstdday/vstdweek/vstdhour/vstdminute/vstdsecond/vstdmillis
+                decoded = base64.b64decode(timeZone.text)
+                bias, standardName, standardDate, standardBias, daylightName, daylightDate, daylightBias = struct.unpack('i64s16si64s16si', decoded)
+                print(f"  TimeZone bias: {bias}min")
             print("")
 
 
