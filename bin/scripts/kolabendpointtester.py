@@ -40,7 +40,7 @@ def http_request(url, method, params=None, headers=None, body=None):
         body = urllib.parse.urlencode(params)
 
     # print("Requesting", parsed_url.path, "From", parsed_url.netloc)
-    conn.request(method, parsed_url.path, body, headers)
+    conn.request(method, parsed_url.geturl(), body, headers)
     response = conn.getresponse()
 
     # Handle redirects
