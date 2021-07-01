@@ -5,6 +5,12 @@ activesynccli.py
     --host apps.kolabnow.com
     --user test1@kolab.org
     --password Welcome2KolabSystems
+
+# Dependencies
+
+    dnf install libwbxml-devel
+    pip install --global-option=build_ext --global-option="-I/usr/include/libwbxml-1.0/wbxml/" git+https://github.com/kanarip/python-wbxml#egg=wbxml
+
 """
 
 import argparse
