@@ -20,6 +20,7 @@ import urllib.parse
 import wbxml
 import struct
 import xml.etree.ElementTree as ET
+import ssl
 
 def http_request(url, method, params=None, headers=None, body=None):
     """
@@ -30,7 +31,7 @@ def http_request(url, method, params=None, headers=None, body=None):
     parsed_url = urllib.parse.urlparse(url)
     # print("Connecting to ", parsed_url.netloc)
     if url.startswith('https://'):
-        conn = http.client.HTTPSConnection(parsed_url.netloc, 443)
+        conn = http.client.HTTPSConnection(parsed_url.netloc, 443, context = ssl._create_unverified_context())
     else:
         conn = http.client.HTTPConnection(parsed_url.netloc, 80)
 
