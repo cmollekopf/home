@@ -22,6 +22,21 @@ import struct
 import xml.etree.ElementTree as ET
 import ssl
 
+
+def decode_timezone(tz):
+    decoded = base64.b64decode(tz)
+    bias, standardName, standardDate, standardBias, daylightName, daylightDate, daylightBias = struct.unpack('i64s16si64s16si', decoded)
+    print(f"  TimeZone bias: {bias}min")
+    print(f"  Standard Name: {standardName.decode()}")
+    year, month, day, week, hour, minute, second, millis = struct.unpack('hhhhhhhh', standardDate)
+    print(f"  Standard Date: Year: {year} Month: {month} Day: {day} Week: {week} Hour: {hour} Minute: {minute} Second: {second} Millisecond: {millis}")
+    print(f"  Daylight Name: {daylightName.decode()}")
+    year, month, day, week, hour, minute, second, millis = struct.unpack('hhhhhhhh', daylightDate)
+    print(f"  Daylight Date: Year: {year} Month: {month} Day: {day} Week: {week} Hour: {hour} Minute: {minute} Second: {second} Millisecond: {millis}")
+    print(f"  Daylight Bias: {daylightBias}min")
+    print()
+
+
 def http_request(url, method, params=None, headers=None, body=None):
     """
         Perform an HTTP request.
@@ -369,14 +384,19 @@ class ActiveSync:
 
 def main():
     parser = argparse.ArgumentParser("usage: %prog [options]")
-    subparsers = parser.add_subparsers()
 
     parser.add_argument("--host", help="Host")
     parser.add_argument("--username", help="Output directory")
     parser.add_argument("--password", help="User password to use for all files")
     parser.add_argument("--verbose", action='store_true', help="Verbose output")
-    parser.add_argument("--deviceid", action='store_true', help="deviceid")
-    parser.add_argument("--devicetype", action='store_true', help="devicetype")
+    parser.add_argument("--deviceid", help="deviceid ")
+    parser.add_argument("--devicetype", help="devicetype (WindowsOutlook15, iphone)")
+
+    subparsers = parser.add_subparsers()
+
+    parser_list = subparsers.add_parser('decode_timezone')
+    parser_list.add_argument("timezone", help="Encoded timezone string")
+    parser_list.set_defaults(func=lambda args: decode_timezone(args.timezone))
 
     parser_list = subparsers.add_parser('list')
     parser_list.add_argument("--folder", help="Folder")
