@@ -296,9 +296,11 @@ class ActiveSync:
 
             calxmlns = "http://synce.org/formats/airsync_wm5/calendar"
             subject = applicationData.find(f"{{{calxmlns}}}Subject")
-            print("  Subject", subject.text)
+            if subject is not None:
+                print("  Subject", subject.text)
             startTime = applicationData.find(f"{{{calxmlns}}}StartTime")
-            print("  StartTime", startTime.text)
+            if startTime is not None:
+                print("  StartTime", startTime.text)
             timeZone = applicationData.find(f"{{{calxmlns}}}TimeZone")
             if timeZone is not None:
                 #the dates are encoded like so: vstdyear/vstdmonth/vstdday/vstdweek/vstdhour/vstdminute/vstdsecond/vstdmillis
