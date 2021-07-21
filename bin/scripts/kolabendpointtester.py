@@ -173,7 +173,30 @@ def test_autoconfig(host, username, password, verbose = False):
 
 
 def test_autodiscover_activesync(host, username, password, verbose = False):
-    body = '''<Autodiscover \
+    """
+    We expect something along the lines of
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <Autodiscover xmlns="http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006">
+    <Response xmlns="http://schemas.microsoft.com/exchange/autodiscover/mobilesync/responseschema/2006">
+        <User>
+        <DisplayName>User Name</DisplayName>
+        <EMailAddress>user@example.com</EMailAddress>
+        </User>
+        <Action>
+        <Settings>
+            <Server>
+            <Type>MobileSync</Type>
+            <Url>https://kolab.example.com/Microsoft-Server-ActiveSync</Url>
+            <Name>https://kolab.example.com/Microsoft-Server-ActiveSync</Name>
+            </Server>
+        </Settings>
+        </Action>
+    </Response>
+    </Autodiscover>
+    """
+
+    body = f'''<Autodiscover \
 xmlns="http://schemas.microsoft.com/exchange/autodiscover/mobilesync/requestschema/2006">
     <Request>
       <EMailAddress>{username}</EMailAddress>
@@ -184,7 +207,8 @@ xmlns="http://schemas.microsoft.com/exchange/autodiscover/mobilesync/requestsche
 </Autodiscover>'''
 
     headers = {
-        "Content-Type": "text/xml; charset=utf-8"
+        "Content-Type": "text/xml; charset=utf-8",
+        **basic_auth_headers(username, password)
     }
 
     response = http_request(
@@ -201,6 +225,7 @@ xmlns="http://schemas.microsoft.com/exchange/autodiscover/mobilesync/requestsche
         print("=> Error: Activesync autodiscover is not available")
     else:
         # Sanity check of the data
+        assert "<Type>MobileSync</Type>" in data
         assert f"<Url>https://{host}/Microsoft-Server-ActiveSync</Url>" in data
         assert username in data
 
