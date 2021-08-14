@@ -24,9 +24,9 @@ alias todo='nvim ~/data/notes/todo'
 alias ls='exa'
 alias extract='dtrx'
 alias rscp="rsync -avzP"
-alias arcdiff="arc diff --allow-untracked --use-commit-message HEAD --browse HEAD^"
+alias arcdiff="arc diff --allow-untracked --verbatim --browse HEAD^"
 alias arcup="arc diff HEAD^ --update"
-alias arcrebase="git rebase -i --exec 'arc diff --allow-untracked -C HEAD HEAD^' "
+alias arcrebase="git rebase -i --exec 'arc diff --allow-untracked --verbatim HEAD^' "
 alias arcpatch="arc patch --nobranch"
 
 # alias startakonadi="systemd-cat -t "akonadi" akonadictl start"

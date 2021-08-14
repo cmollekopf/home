@@ -12,6 +12,6 @@ function fish_user_key_bindings
     # bind \eright 'forward-word'
     ### fzy ###
     bind \cr 'fzy_select_history (commandline -b)'
-    bind \cf 'fzy_select_directory'
+    bind \cf fzy_select_directory
     ### fzy ###
 end

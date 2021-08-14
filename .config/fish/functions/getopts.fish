@@ -1,1 +1,0 @@
-/home/mollekopf/.config/fisherman/getopts/getopts.fish
