@@ -198,7 +198,7 @@ class ActiveSync:
         else:
             self.devicetype = 'iphone'
 
-        if options.folder:
+        if hasattr(options, 'folder') and options.folder:
             self.folder = options.folder
         else:
             self.folder = None
