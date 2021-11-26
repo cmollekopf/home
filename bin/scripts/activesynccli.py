@@ -3,13 +3,16 @@
 """
 activesynccli.py
     --host apps.kolabnow.com
-    --user test1@kolab.org
-    --password Welcome2KolabSystems
+    --devicetype WindowsOutlook15
+    --deviceid windowsascli
+    --user test1@kolab.org --password Welcome2KolabSystems
+    --verbose
+    list --folder INBOX
 
 # Dependencies
 
     dnf install libwbxml-devel
-    pip install --global-option=build_ext --global-option="-I/usr/include/libwbxml-1.0/wbxml/" git+https://github.com/kanarip/python-wbxml#egg=wbxml
+    pip install --global-option=build_ext --global-option="-I/usr/include/libwbxml-1.0/wbxml/" git+https://github.com/Apheleia-IT/python-wbxml#egg=wbxml
 
 """
 
@@ -17,10 +20,10 @@ import argparse
 import base64
 import http.client
 import urllib.parse
-import wbxml
 import struct
 import xml.etree.ElementTree as ET
 import ssl
+import wbxml
 
 
 def decode_timezone(tz):
@@ -286,7 +289,7 @@ class ActiveSync:
         </Sync>
         """.replace('    ', '').replace('\n', '')
 
-    # for mail
+        # for mail
         # <BodyPreference xmlns="uri:AirSyncBase">
         #     <Type>4</Type>
         response = self.send_request('Sync', request.format(collection_id=collection_id, sync_key=sync_key))
