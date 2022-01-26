@@ -41,6 +41,17 @@ class ImapCli < Thor
     p imap.select(folder)
   end
 
+  desc "download", "Download."
+  def download(folder, destination)
+    imap.select(folder)
+    Dir.mkdir destination unless File.exists? destination
+    imap.uid_fetch(1..-1, "RFC822").each do |mail|
+      uid = mail.attr["UID"]
+      p uid
+      File.write("#{destination}#{uid}.", mail.attr["RFC822"])
+    end
+  end
+
 end
 
 begin
