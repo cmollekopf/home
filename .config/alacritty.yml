@@ -230,6 +230,11 @@ key_bindings:
   - { key: Back,     mods: Alt,     chars: "\x1b\x7f"                    }
   - { key: Insert,                  chars: "\x1b[2~"                     }
   - { key: Delete,                  chars: "\x1b[3~",  mode: AppKeypad   }
+  - { key: Left,     mods: Shift,   action: ResetFontSize                }
+  - { key: Up,       mods: Shift,   action: IncreaseFontSize             }
+  - { key: Down,     mods: Shift,   action: DecreaseFontSize             }
+  # - { key: Plus,  mods: Control, action: IncreaseFontSize             }
+  # - { key: Minus, mods: Control, action: DecreaseFontSize             }
 # Mouse bindings
 #
 # Currently doesn't support modifiers. Both the `mouse` and `action` fields must
