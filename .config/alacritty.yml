@@ -258,5 +258,5 @@ hide_cursor_when_typing: true
 
 shell:
   program: /usr/bin/fish
-  args:
-    - --command=tmux attach-session -t default; or tmux new-session -s default
+    #  args:
+    #- --command=tmux attach-session -t default; or tmux new-session -s default
