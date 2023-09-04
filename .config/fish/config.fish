@@ -34,8 +34,6 @@ alias arcpatch="arc patch --nobranch"
 
 alias ackf='ack -g --color'
 
-
-
 set -g theme_short_path yes
 set -g fish_color_command normal
 set -g fish_color_comment red
@@ -44,6 +42,10 @@ set -g fish_color_comment red
 function fish_vi_cursor; end
 function __fish_cursor1337; end
 fish_vi_key_bindings
+
+function fish_right_prompt -d "Write out the right prompt"
+    date '+%m/%d %H:%M:%S'
+end
 
 
 # if status --is-interactive; and not set -q TMUX

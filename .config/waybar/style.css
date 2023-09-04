@@ -31,9 +31,11 @@ window#waybar.solo {
     color:      rgba(217, 216, 216, 1);
 }
 
-#workspaces button.focused {
+#workspaces button.active {
+    /* The borders change the size of the entire bar and I don't know how to avoid that.
     border-top: 3px solid rgba(217, 216, 216, 1);
-    border-bottom: 3px solid rgba(217, 216, 216, 0);
+    border-bottom: 3px solid rgba(217, 216, 216, 0);*/
+    color:      rgba(217, 216, 216, 1);
 }
 
 #workspaces button.urgent {

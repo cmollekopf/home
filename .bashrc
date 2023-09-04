@@ -78,3 +78,5 @@ alias make='nice make -j5'
 export KF5=$HOME/kf5
 
 set -o vi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
