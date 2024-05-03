@@ -8,14 +8,22 @@
 	insteadOf = kde:
 [url "git@invent.kde.org:"]
 	pushInsteadOf = kde:
-[url "https://git.kolab.org/diffusion/"]
+[url "https://git.kolab.org/source/"]
 	insteadOf = kolab:
-[url "ssh://git@git.kolab.org/diffusion/"]
+[url "ssh://git@git.kolab.org/source/"]
 	pushInsteadOf = kolab:
+[url "https://phorge.apps.ocp04.ait-msp-infra.net/source/"]
+	insteadOf = phorge:
+[url "https://phorge.apps.ocp04.ait-msp-infra.net/source/"]
+	pushInsteadOf = phorge:
 [url "ssh://git@github.com/"]
 	insteadOf = github:
 [url "ssh://bifrost.kolabsystems.com/source/"]
 	insteadOf = bifrost:
+; [url "https://phorge.apps.ocp04.ait-msp-infra.net/source/"]
+; 	insteadOf = kolab:
+; [url "https://phorge.apps.ocp04.ait-msp-infra.net/source/"]
+; 	pushInsteadOf = kolab:
 [color]
 	ui = true
 [push]
@@ -38,6 +46,8 @@
     fugitive = mergetool --tool fugitive
     amend = commit --amend --verbose
     c = commit --verbose
+    pickaxe = log -p -S
+	unstage = reset HEAD --
 [credential]
 	helper = cache --timeout=3600
 [mergetool "fugitive"]
@@ -51,4 +61,4 @@
 [tar "tar.xz"]
 	command = xz -c
 [gpg]
-	program = gpg2
+	program = /home/mollekopf/bin/scripts/gpgwithoutagent.sh

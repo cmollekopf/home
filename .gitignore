@@ -36,5 +36,8 @@ kdebuild
 /home/mollekopf/data
 /home/mollekopf/rpmbuild
 /home/mollekopf/src
+*.png
+*.jpg
+*.jpeg
 intel
 /home/mollekopf/bin/Postman

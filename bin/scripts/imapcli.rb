@@ -5,18 +5,66 @@ require 'thor'
 
 class IMAP < Net::IMAP
 
-    def getmetadata(mailbox, entry)
+
+    def send_command2(cmd, *args, &block)
       synchronize do
-        send_command("GETMETADATA", mailbox, entry)
-        return @responses.delete("METADATA")[-1]
+        # args.each do |i|
+        #   validate_data(i)
+        # end
+        tag = generate_tag
+        put_string(tag + " " + cmd + CRLF)
+        # args.each do |i|
+        #   put_string(" ")
+        #   send_data(i, tag)
+        # end
+        # put_string(CRLF)
+        # if cmd == "LOGOUT"
+        #   @logout_command_tag = tag
+        # end
+        # if block
+        #   add_response_handler(&block)
+        # end
+        begin
+          return get_tagged_response(tag, cmd)
+        ensure
+          if block
+            remove_response_handler(block)
+          end
+        end
+      end
+    end
+
+    def getmetadata(mailbox, *entries)
+      synchronize do
+        # send_command2(IMAP.encode_utf7("SELECT" + " \"newfolder\" (CONDSTORE)"))
+
+        data = '(' + entries.join(' ') + ')'
+        # send_command("GETMETADATA", mailbox, RawData.new(data))
+        send_command("GETMETADATA" + " (DEPTH infinity)", mailbox, RawData.new(data))
+        
+        # send_command("GETMETADATA" + " (DEPTH infinity)", RawData.new('"' + mailbox + '"'), RawData.new(data))
+        # send_command("GETMETADATA" + " (DEPTH infinity)", mailbox, RawData.new(data))
+        # send_command("GETMETADATA" + " (DEPTH infinity) \"newfolder\" (/shared)\r\n")
+        # send_command2(IMAP.encode_utf7("SELECT" + " \"newfolder\" (CONDSTORE)"))
+        # send_command2(IMAP.encode_utf7("GETMETADATA" + " (DEPTH infinity) \"newfolder\" (/shared)"))
+        # send_command("GETMETADATA" , mailbox , RawData.new("(DEPTH 0) " + data))
+        # send_command("GETMETADATA", mailbox, RawData.new(data))
+        result = @responses.delete("METADATA")
+        if result and result.length() > 0
+          return result[-1]
+        end
+        return ""
       end
     end
 
     def setmetadata(mailbox, entry, value)
-      # send_command("SETMETADATA", mailbox, [entry, IMAP.encode_utf7(value)])
-      # FIXME I can't make this to send the value quoted.
-      # The implementation does not support it: https://github.com/ruby/net-imap/blob/e5bcb677d0cb11c2de38dd5a67fca3de3a90d5fb/lib/net/imap/command_data.rb#L54
-      send_command("SETMETADATA", mailbox, [entry, value])
+      data = '(' + entry + ' ' + '"' + IMAP.encode_utf7(value) + '"' + ')'
+      send_command("SETMETADATA", mailbox, RawData.new(data))
+      # data = '(' + entry + ' ' + '"' + IMAP.encode_utf7(value) + '"' + ')'
+      #
+      #typ, dat = self._simple_command('SETANNOTATION', mailbox, quote(desc), "(%s %s)" % (quote('value.shared'), value) )
+      #data = '"/vendor/kolab/folder-type" ("value.shared" "event")'
+      #send_command("SETANNOTATION", mailbox, RawData.new(data))
     end
 end
 
@@ -54,8 +102,13 @@ class ImapCli < Thor
   end
 
   desc "list", "List."
-  def list()
-    p imap.list("", "**")
+  def list(folder = "**")
+    p imap.list("", folder)
+  end
+
+  desc "lsub", "List subscriptions."
+  def lsub(folder = "**")
+    p imap.lsub("", folder)
   end
 
   desc "namespace", "Namespace."
@@ -78,9 +131,38 @@ class ImapCli < Thor
     p imap.create(folder)
   end
 
+  desc "delete", "Delete."
+  def delete(folder)
+    p imap.delete(folder)
+  end
+
+  desc "subscribe", "Subscribe."
+  def subscribe(folder)
+    p imap.subscribe(folder)
+  end
+
   desc "getmetadata", "Getmetadata."
-  def getmetadata(folder, entry)
-    p imap.getmetadata(folder, entry)
+  def getmetadata(folder, *entries)
+    # p imap.select(folder)
+    p imap.getmetadata(folder, entries)
+  end
+
+  desc "test", "Test."
+  def test(folder, *entries)
+    p imap.select(folder)
+    imap.send_command2("ENABLE QRESYNC")
+    imap.send_command2("UID FETCH 1:* (FLAGS) (CHANGEDSINCE 52 VANISHED)")
+    # UID FETCH 1:* (FLAGS) (CHANGEDSINCE 52 VANISHED)
+    # p imap.getmetadata(folder, entries)
+  end
+
+  desc "idle", "IDLE."
+  def idle(folder, *entries)
+    p imap.select(folder)
+    imap.send_command2("IDLE")
+    # imap.send_command2("UID FETCH 1:* (FLAGS) (CHANGEDSINCE 52 VANISHED)")
+    # UID FETCH 1:* (FLAGS) (CHANGEDSINCE 52 VANISHED)
+    # p imap.getmetadata(folder, entries)
   end
 
   desc "getacl", "getacl."
@@ -96,7 +178,8 @@ class ImapCli < Thor
   desc "download", "Download."
   def download(folder, destination)
     imap.select(folder)
-    Dir.mkdir destination unless File.exists? destination
+    #Dir.mkdir destination unless File.exists? destination
+    Dir.mkdir destination
     imap.uid_fetch(1..-1, "RFC822").each do |mail|
       uid = mail.attr["UID"]
       p uid
@@ -111,4 +194,5 @@ begin
 rescue => e
     puts e.message
     puts e.backtrace.inspect
+    raise e
 end

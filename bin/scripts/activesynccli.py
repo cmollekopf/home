@@ -39,6 +39,10 @@ def decode_timezone(tz):
     print(f"  Daylight Bias: {daylightBias}min")
     print()
 
+def decode_wbxml(data):
+    decoded = wbxml.wbxml_to_xml(data)
+    print(f"  XML: {decoded}")
+    print()
 
 def http_request(url, method, params=None, headers=None, body=None):
     """
@@ -209,6 +213,10 @@ class ActiveSync:
 
     def send_request(self, command, request):
         body = wbxml.xml_to_wbxml(request)
+
+        print("wbxml body")
+        print(body)
+        print(body.decode('ascii'))
 
         headers = {
             "Host": self.host,
@@ -400,6 +408,10 @@ def main():
     parser_list = subparsers.add_parser('decode_timezone')
     parser_list.add_argument("timezone", help="Encoded timezone string")
     parser_list.set_defaults(func=lambda args: decode_timezone(args.timezone))
+
+    parser_list = subparsers.add_parser('decode_wbxml')
+    parser_list.add_argument("wbxml", help="Encoded wbxml string")
+    parser_list.set_defaults(func=lambda args: decode_wbxml(args.wbxml))
 
     parser_list = subparsers.add_parser('list')
     parser_list.add_argument("--folder", help="Folder")

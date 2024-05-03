@@ -10,8 +10,5 @@ function fish_user_key_bindings
     # bind \ebackspace 'backward-kill-word'
     # bind \eleft 'backward-word'
     # bind \eright 'forward-word'
-    ### fzy ###
-    bind \cr 'fzy_select_history (commandline -b)'
-    bind \cf fzy_select_directory
-    ### fzy ###
+    bind -M insert \cf forward-char
 end

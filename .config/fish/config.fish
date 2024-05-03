@@ -51,3 +51,4 @@ end
 # if status --is-interactive; and not set -q TMUX
 #     tmux attach -t default; or tmux new -s default
 # end
+kubectl completion fish | source

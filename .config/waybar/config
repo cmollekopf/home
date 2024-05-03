@@ -5,8 +5,9 @@
     // "width": 1280, // Waybar width
     // Choose the order of the modules
     //"modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
-    "modules-left": ["wlr/workspaces", "sway/workspaces", "sway/mode", "custom/media"],
-    "modules-center": ["hyperland/window", "sway/window"],
+    "modules-left": ["hyprland/workspaces", "custom/dashboard"],
+    //"modules-center": ["sway/window"],
+    "modules-center": ["hyprland/window"],
     "modules-right": ["idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "battery", "clock", "tray"],
     // Modules configuration
     // "sway/workspaces": {
@@ -25,12 +26,45 @@
     //     }
     // },
 
-    "wlr/workspaces": {
+    //"wlr/workspaces": {
+    //    "disable-scroll": true,
+    //    "on-click": "activate",
+    //    "all-outputs": true,
+    //    "format": "{icon}",
+    //},
+    "hyprland/workspaces": {
         "disable-scroll": true,
         "on-click": "activate",
         "all-outputs": false,
-        "format": "{icon}",
+        //"format": "{name}: {icon}",
+        "format": "{name}",
+        "format-icons": {
+            //"1": "",
+            //"2": "",
+            //"3": "",
+            //"4": "",
+            //"5": "",
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        }
     },
+    //"wlr/workspaces": {
+    //    "disable-scroll": true,
+    //    "on-click": "activate",
+    //    "all-outputs": true,
+    //    "format": "{name}: {icon}",
+    //    "format-icons": {
+    //        "1": "",
+    //        "2": "",
+    //        "3": "",
+    //        "4": "",
+    //        "5": "",
+    //        "urgent": "",
+    //        "focused": "",
+    //        "default": ""
+    //    }
+    //},
     "hyprland/window": {
         "max-length": 200,
         "separate-outputs": true
@@ -114,5 +148,20 @@
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
-    }
+    },
+    "custom/dashboard": {
+        "format": "{}",
+        "interval": 60, // in seconds
+        "exec": "~/.config/waybar/dashboardstatus.sh",
+        //"exec": "i=$(checkupdates); echo \"$i\" |wc -l; echo \"$i\" |column -t |tr '\n' '\r'",
+        "exec-if": "exit 0", // always run; consider advanced run conditions
+        //"on-click": "alacritty -e sudo pacman -Syu", // update system
+        "signal": 8
+    },
+    //"custom/power": {
+    //  	"format":"⏻",
+    //   	"on-click": "nwg-bar",
+    //  	"tooltip": false,
+    //}
+
 }
