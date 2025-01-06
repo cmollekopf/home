@@ -21,13 +21,14 @@ set --export TERM "screen-256color"
 alias vim='nvim'
 alias notes='nvim ~/data/notes/stuff'
 alias todo='nvim ~/data/notes/todo'
-alias ls='exa'
+alias ls='eza'
 alias extract='dtrx'
 alias rscp="rsync -avzP"
 alias arcdiff="arc diff --allow-untracked --verbatim --browse HEAD^"
 alias arcup="arc diff HEAD^ --update"
 alias arcrebase="git rebase -i --exec 'arc diff --allow-untracked --verbatim HEAD^' "
 alias arcpatch="arc patch --nobranch"
+alias ag="ag -f -F --"
 
 # alias startakonadi="systemd-cat -t "akonadi" akonadictl start"
 # alias akonadilog="journalctl -n99  -f SYSLOG_IDENTIFIER=akonadi"
