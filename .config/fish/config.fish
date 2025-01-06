@@ -47,13 +47,16 @@ fish_vi_key_bindings
 # Workaround because I can't figure out where this is set from (it doesn't work under tmux, but does otherwise?)
 set -g SSH_AUTH_SOCK /run/user/1000/gnupg/S.gpg-agent.ssh
 
+fish_add_path ~/bin/scripts/
 
 fish_add_path ~/bin/ ~/bin/scripts/ ~/.attuin/bin/
 # if status --is-interactive; and not set -q TMUX
 #     tmux attach -t default; or tmux new -s default
 # end
 if status --is-interactive
-    kubectl completion fish | source
+    if which kubectl 2> /dev/null;
+        kubectl completion fish | source
+    end
     kictl completion fish | source
     #kolabctl completion fish | source
     atuin init fish | source
