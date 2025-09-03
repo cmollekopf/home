@@ -28,7 +28,7 @@ end
 class DockerConnect < Thor
     desc "open", "Open port."
     def open(containername, url, port)
-        output = Commandline.run "docker port #{containername}"
+        output = Commandline.run "podman port #{containername}"
         portmap = output.split(/\n/).map { |string|
           [
             string[/\d+(?=\/tcp)/, 0].to_i, # Target port
