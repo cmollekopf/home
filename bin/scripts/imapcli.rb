@@ -68,11 +68,11 @@ class IMAP < Net::IMAP
     end
 end
 
-
 class ImapCli < Thor
   class_option :host
   class_option :port
   class_option :username
+  class_option :login_as
   class_option :password
   class_option :ssl, :type => :boolean
   class_option :debug, :type => :boolean
@@ -90,7 +90,12 @@ class ImapCli < Thor
         if options[:debug]
           IMAP.debug = true
         end
-        @imap.login(options[:username], options[:password])
+        if  options[:login_as]
+          @imap.authenticate("PLAIN", options[:username], options[:password], authzid: options[:login_as])
+        else
+          @imap.authenticate("PLAIN", options[:username], options[:password])
+          # @imap.login(options[:username], options[:password])
+        end
       end
       @imap
     end
@@ -104,6 +109,12 @@ class ImapCli < Thor
   desc "list", "List."
   def list(folder = "**")
     p imap.list("", folder)
+  end
+
+  desc "search", "Search."
+  def search(folder, query, location="BODY")
+    p imap.select(folder)
+    imap.search([location, query])
   end
 
   desc "lsub", "List subscriptions."
@@ -134,6 +145,11 @@ class ImapCli < Thor
   desc "delete", "Delete."
   def delete(folder)
     p imap.delete(folder)
+  end
+
+  desc "rename", "Rename."
+  def rename(current, new)
+    p imap.rename(current, new)
   end
 
   desc "subscribe", "Subscribe."
@@ -170,9 +186,30 @@ class ImapCli < Thor
     p imap.getacl(folder)
   end
 
+  desc "setacl", "setacl."
+  def setacl(folder, user, rights)
+    p imap.setacl(folder, user, rights)
+  end
+
   desc "setmetadata", "Setmetadata."
   def setmetadata(folder, entry, value)
     p imap.setmetadata(folder, entry, value)
+  end
+
+  desc "append", "APPEND."
+  def append(folder, filepath)
+    file = File.open(filepath)
+    file_data = file.read
+    p imap.append(folder, file_data)
+  end
+
+  desc "fetch", "Fetch."
+  def fetch(folder)
+    imap.select(folder)
+    imap.uid_fetch(1..-1, "UID").each do |mail|
+      uid = mail.attr["UID"]
+      p uid
+    end
   end
 
   desc "download", "Download."
