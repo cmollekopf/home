@@ -44,12 +44,17 @@ function fish_vi_cursor; end
 function __fish_cursor1337; end
 fish_vi_key_bindings
 
-function fish_right_prompt -d "Write out the right prompt"
-    date '+%m/%d %H:%M:%S'
-end
+# Workaround because I can't figure out where this is set from (it doesn't work under tmux, but does otherwise?)
+set -g SSH_AUTH_SOCK /run/user/1000/gnupg/S.gpg-agent.ssh
 
 
+fish_add_path ~/bin/ ~/bin/scripts/ ~/.attuin/bin/
 # if status --is-interactive; and not set -q TMUX
 #     tmux attach -t default; or tmux new -s default
 # end
-kubectl completion fish | source
+if status --is-interactive
+    kubectl completion fish | source
+    kictl completion fish | source
+    #kolabctl completion fish | source
+    atuin init fish | source
+end

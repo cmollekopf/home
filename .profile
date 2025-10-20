@@ -4,3 +4,5 @@ export PATH="$HOME/.local/share/flatpak/exports/bin/:$HOME/bin:$HOME/bin/scripts
 export XDG_CURRENT_DESKTOP=kde
 export QT_QPA_PLATFORMTHEME=qt5ct
 export SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh
+
+. "$HOME/.atuin/bin/env"

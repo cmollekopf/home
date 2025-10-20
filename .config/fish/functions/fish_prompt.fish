@@ -24,52 +24,21 @@ function show_status -d "Function to show the current status"
   end
 end
 
-function fish_prompt
-  set -l last_command_status $status
-  set -l cwd
-
-  if test "$theme_short_path" = 'yes'
-    set cwd (basename (prompt_pwd))
-  else
-    set cwd (prompt_pwd)
-  end
-
-  set -l fish     "⋊>"
-  set -l ahead    "↑"
-  set -l behind   "↓"
-  set -l diverged "⥄ "
-  set -l dirty    "⨯"
-  set -l none     "◦"
-
-  set -l normal_color     (set_color normal)
-  set -l success_color    (set_color cyan)
-  set -l error_color      (set_color red --bold)
+function show_directory -d "Function to show the current directory"
   set -l directory_color  (set_color brown)
   set -l repository_color (set_color green)
-  #set -l success_color    (set_color $fish_pager_color_progress ^/dev/null; or set_color cyan)
-  #set -l error_color      (set_color $fish_color_error ^/dev/null; or set_color red --bold)
-  #set -l directory_color  (set_color $fish_color_quote ^/dev/null; or set_color brown)
-  #set -l repository_color (set_color $fish_color_cwd ^/dev/null; or set_color green)
-
-  show_status $last_command_status
-  if test $last_command_status -eq 0
-    echo -n -s $success_color $fish $normal_color
-  else
-    echo -n -s $error_color $fish $normal_color
-  end
+  set -l normal_color     (set_color normal)
+  set -l cwd
+  set cwd (basename (prompt_pwd))
 
   if test "$PWD" != "$HOME"
     if git_is_repo
-      if test "$theme_short_path" = 'yes'
         set root_folder (command git rev-parse --show-toplevel)
         #set root_folder (command git rev-parse --show-toplevel ^/dev/null)
         set parent_root_folder (dirname $root_folder)
         set cwd (echo $PWD | sed -e "s|$parent_root_folder/||")
 
         echo -n -s " " $directory_color $cwd $normal_color
-      else
-        echo -n -s " " $directory_color $cwd $normal_color
-      end
 
       echo -n -s " on " $repository_color (git_branch_name) $normal_color " "
 
@@ -82,6 +51,57 @@ function fish_prompt
       echo -n -s " " $directory_color $cwd $normal_color
     end
   end
+end
+
+function fish_prompt
+  set -l last_command_status $status
+  set -l cwd
+
+  if test "$theme_short_path" = 'yes'
+    set cwd (basename (prompt_pwd))
+  else
+    set cwd (prompt_pwd)
+  end
+
+  set -l fish     ">"
+  set -l ahead    "↑"
+  set -l behind   "↓"
+  set -l diverged "⥄ "
+  set -l dirty    "⨯"
+  set -l none     "◦"
+
+  set -l normal_color     (set_color normal)
+  set -l success_color    (set_color cyan)
+  set -l error_color      (set_color red --bold)
+  #set -l success_color    (set_color $fish_pager_color_progress ^/dev/null; or set_color cyan)
+  #set -l error_color      (set_color $fish_color_error ^/dev/null; or set_color red --bold)
+
+  show_status $last_command_status
+  if test $last_command_status -eq 0
+      echo -n -s $success_color $fish $normal_color
+  else
+    echo -n -s $error_color $fish $normal_color
+  end
 
   echo -n -s " "
 end
+
+function fish_mode_prompt; end
+
+function fish_right_prompt -d "Write out the right prompt"
+  set -l last_command_status $status
+
+  set -l ahead    "↑"
+  set -l behind   "↓"
+  set -l diverged "⥄ "
+  set -l dirty    "⨯"
+  set -l none     "◦"
+
+  set -l normal_color     (set_color normal)
+
+  show_directory
+
+  date '+%H:%M:%S'
+
+end
+
