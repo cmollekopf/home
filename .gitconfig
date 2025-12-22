@@ -14,7 +14,7 @@
 	pushInsteadOf = kolab:
 [url "https://phorge.apps.ocp04.ait-msp-infra.net/source/"]
 	insteadOf = phorge:
-[url "https://phorge.apps.ocp04.ait-msp-infra.net/source/"]
+[url "ssh://git@phorge.apps.ocp04.ait-msp-infra.net/source/"]
 	pushInsteadOf = phorge:
 [url "ssh://git@github.com/"]
 	insteadOf = github:
